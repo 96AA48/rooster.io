@@ -1,0 +1,15 @@
+{
+  "name": "rooster-io",
+  "version": "0.0.1",
+  "description": "A new version of rooster.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "Bram van der Veen",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^0.19.0",
+    "express": "^4.12.4"
+  }
+}
