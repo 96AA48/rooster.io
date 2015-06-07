@@ -2,6 +2,7 @@
 var http = require('http');
 var cheerio = require('cheerio');
 var iconv = require('iconv-lite');
+var mongodb = require('mongodb').MongoClient;
 
 //Define schooltypes that need to be ripped.
 var scheduletypes = [
@@ -13,8 +14,11 @@ var scheduletypes = [
 var schoolid;
 
 //Function for getting pages with http requests.
-function get(callback) {
-  var index = [];
+function get(database) {
+
+  var collection = database.collection('index');
+  collection.drop();
+
   //Go past all of the scheduletypes and download their pages.
   for (scheduletype of scheduletypes) {
     (function (scheduletype) {
@@ -34,36 +38,44 @@ function get(callback) {
 
           if (scheduletype == 'leerling') {
             for(studentcategory of list) {
-              http.get('http://' + res.req.socket._host + res.req.path + '&afdeling=' + studentcategory, function (res) {
-                var _download = '';
+              (function (studentcategory) {
 
-                res.on('data', function (data) {
-                  _download += iconv.decode(data, 'binary');
-                });
+                http.get('http://' + res.req.socket._host + res.req.path + '&afdeling=' + studentcategory, function (res) {
+                  var _download = '';
 
-                res.on('end', function () {
-                  var list = cheerio('select', _download).children();
+                  res.on('data', function (data) {
+                    _download += iconv.decode(data, 'binary');
+                  });
 
-                  for (student in list) {
-                    if (!isNaN(student)) {
-                      var name = cheerio(list[student]).text().split(' - ')[1];
-                      var id = cheerio(list[student]).val();
+                  res.on('end', function () {
+                    var list_students = cheerio('select', _download).children();
 
-                      var database_entry = {
-                        'id' : id,
-                        'full_name' : name,
-                        'first_name' : name.split(' ')[0],
-                        'last_name' : name.split(' ').splice(1).join(' '),
-                        'type' : scheduletype
+                    for (student in list_students) {
+                      if (!isNaN(student)) {
+                        var name = cheerio(list_students[student]).text().split(' - ')[1];
+                        var id = cheerio(list_students[student]).val();
+
+                        var database_entry = {
+                          'id' : id,
+                          'username' : id + name.split(' ')[0].toLowerCase(),
+                          'full_name' : name,
+                          'first_name' : name.split(' ')[0],
+                          'last_name' : name.split(' ').splice(1).join(' '),
+                          'studentcategory' : studentcategory,
+                          'type' : scheduletype
+                        }
+
+
+                        collection.insert(database_entry, showOutput);
+                        if (studentcategory == list[list.length - 1] && student == list_students.length - 1) {
+                          database.close();
+                        }
                       }
-
-                      index.push(database_entry);
                     }
-                  }
+                  });
                 });
-              });
+              })(studentcategory);
             }
-            callback(index);
           }
           else {
             for (entry of list) {
@@ -71,7 +83,7 @@ function get(callback) {
                 'name' : entry,
                 'type' : scheduletype
               }
-              index.push(database_entry);
+              collection.insert(database_entry, showOutput);
             }
           }
 
@@ -91,10 +103,17 @@ function extract(page) {
 //Function being called to access functionality from this module.
 function crawl(sid) {
   schoolid = sid;
-  var times = 0;
-  get(function (data) {
-    console.log(data);
-  });
+  mongodb.connect('mongodb://wallpiece/roosterio', function (error, database) {
+    if (error) console.warn(error);
+    get(database);
+  })
+}
+
+function showOutput(error, message) {
+  if (process.argv[2] == '-v') {
+    if (error) process.stdout.write(error.toString());
+    process.stdout.write(message + '\n');
+  }
 }
 
 crawl(934);
