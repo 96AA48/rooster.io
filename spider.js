@@ -1,10 +1,8 @@
-//Import/require modules needed to crawl the schoolmaster schedules.
 var http = require('http');
 var cheerio = require('cheerio');
 var iconv = require('iconv-lite');
 var mongodb = require('mongodb').MongoClient;
 
-//Define schooltypes that need to be ripped.
 var scheduletypes = [
   'Klasrooster',
   'Docentrooster',
@@ -19,9 +17,9 @@ function get(database) {
   var collection = database.collection('index');
   collection.drop();
 
-  //Go past all of the scheduletypes and download their pages.
   for (scheduletype of scheduletypes) {
     (function (scheduletype) {
+
       var link = 'http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + schoolid + '&type=' + scheduletype;
 
       scheduletype = scheduletype.replace(/rooster/g, '').toLowerCase();
@@ -109,6 +107,7 @@ function crawl(sid) {
   })
 }
 
+//Redundant function for draining native-mongodb-driver output
 function showOutput(error, message) {
   if (process.argv[2] == '-v') {
     if (error) process.stdout.write(error.toString());
@@ -116,4 +115,6 @@ function showOutput(error, message) {
   }
 }
 
-crawl(934);
+module.exports = {
+  'crawl' : crawl
+}
