@@ -51,7 +51,7 @@ function get(database) {
                     for (student in list_students) {
                       if (!isNaN(student)) {
                         var name = cheerio(list_students[student]).text().split(' - ')[1];
-                        var id = cheerio(list_students[student]).val();
+                        var id = parseInt(cheerio(list_students[student]).val());
 
                         var database_entry = {
                           'id' : id,
@@ -109,12 +109,16 @@ function crawl(sid) {
 
 //Redundant function for draining native-mongodb-driver output
 function showOutput(error, message) {
-  if (process.argv[2] == '-v') {
-    if (error) process.stdout.write(error.toString());
-    process.stdout.write(message + '\n');
+  if (process.argv[3] == '-v') {
+    // if (error) process.stdout.write(error.toString());
+    if (message != null) console.log(message);
   }
 }
 
 module.exports = {
   'crawl' : crawl
+}
+
+if (process.argv[2] == 'test') {
+  module.exports.crawl(934);
 }
