@@ -2,14 +2,15 @@
 var http = require('http');
 var cheerio = require('cheerio');
 
+//Wrapper function that is being called by express.
 function schedule(res, req, match) {
-  console.log();
   get(req.req.match.url, function (json) {
     req.req.match.json = json;
     res.res.send(json);
   });
 }
 
+//Function for getting the page via http.
 function get(url, callback) {
   http.get(url, function (res) {
     var _download = '';
@@ -24,11 +25,12 @@ function get(url, callback) {
   });
 }
 
+//Function for converting the page into a json dataset.
 function to_json(page) {
   var result = cheerio('td:nth-child(3) table', page);
   var amount_of_days = cheerio(result).find('tr.AccentDark').find('td').length - 1;
   var amount_of_hours = 7;
-  
+
   var schedule_data = [];
 
   //Looping for amount of days
@@ -57,4 +59,5 @@ function to_json(page) {
   return schedule_data;
 }
 
+//Exporting the schedule function.
 module.exports = schedule;
