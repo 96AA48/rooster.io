@@ -1,14 +1,13 @@
 //web.js
 var express = require('express');
+var schedule = require('./schedule.js');
 var app = express();
 
 app.get('/', function (req, res) {
     res.send('Hello world!');
 });
 
-app.param('search', function (req, res, next, search) {
-  res.send('You searched for ' + search);
-});
+app.param('search', schedule);
 
 app.get('/rooster/:search', function (req, res) {
   next();
