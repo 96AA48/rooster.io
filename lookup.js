@@ -3,6 +3,7 @@ var http = require('http');
 var database = require('mongoskin').db('mongodb://wallpiece/roosterio');
 var schoolid = 934;
 
+//Function for looking through the database and finding entries related to the searchterm.
 function lookup(req, res, next, search) {
   var index = database.collection('index');
   index.find({$or : [{id : search}, {name : search}, {first_name : search}, {last_name : search}]}).toArray(function (err, database_entry) {
@@ -23,6 +24,7 @@ function lookup(req, res, next, search) {
   });
 }
 
+//Function for making a link out of the given database_entry.
 function make_url(database_entry) {
   var url = 'http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + schoolid + '&type=' + database_entry.type.charAt(0).toUpperCase() + database_entry.type.slice(1) + 'rooster';
 
