@@ -1,8 +1,9 @@
 //web.js
 var express = require('express');
+var app = express();
+
 var lookup = require('./lookup.js');
 var schedule = require('./schedule.js');
-var app = express();
 
 app.get('/', function (req, res) {
     res.send('Hello world!');

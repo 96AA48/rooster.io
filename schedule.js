@@ -28,8 +28,7 @@ function to_json(page) {
   var result = cheerio('td:nth-child(3) table', page);
   var amount_of_days = cheerio(result).find('tr.AccentDark').find('td').length - 1;
   var amount_of_hours = 7;
-
-
+  
   var schedule_data = [];
 
   //Looping for amount of days
