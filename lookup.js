@@ -12,7 +12,6 @@ function lookup(req, res, next, search) {
     if (database_entry.length == 1) {
       database_entry[0].url = make_url(database_entry[0]);
       req.match = database_entry[0];
-
       next();
     }
     else if (database_entry.length == 0) {
