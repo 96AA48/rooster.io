@@ -1,0 +1,61 @@
+//schedule.js
+var http = require('http');
+var cheerio = require('cheerio');
+
+function schedule(res, req, match) {
+  console.log();
+  get(req.req.match.url, function (json) {
+    req.req.match.json = json;
+    res.res.send(json);
+  });
+}
+
+function get(url, callback) {
+  http.get(url, function (res) {
+    var _download = '';
+
+    res.on('data', function (data) {
+      _download += data;
+    })
+
+    res.on('end', function () {
+      callback(to_json(_download));
+    });
+  });
+}
+
+function to_json(page) {
+  var result = cheerio('td:nth-child(3) table', page);
+  var amount_of_days = cheerio(result).find('tr.AccentDark').find('td').length - 1;
+  var amount_of_hours = 7;
+
+
+  var schedule_data = [];
+
+  //Looping for amount of days
+  for (day = 0; day < amount_of_days; day++) {
+    schedule_data[day] = [];
+
+    //Looping for amount of hours
+    for (hour = 0; hour < amount_of_hours; hour++) {
+      var schedule = cheerio('tr:nth-child('+ (6 + hour) +')', result);
+
+      //Looping for (optional) specialhours
+      var amount_of_special_hours = schedule.find('table').eq(0).children().length;
+      for (special_hour = 0; special_hour < amount_of_special_hours; special_hour++) {
+        schedule_data[day][hour] = {teacher: [], chamber: [], course: [], changed: []};
+        var selected_hour = schedule.find('table').eq(0).find('tr').eq(special_hour).find('td');
+
+        schedule_data[day][hour].teacher[special_hour] = selected_hour.eq(0).html();
+        schedule_data[day][hour].chamber[special_hour] = selected_hour.eq(2).html();
+        schedule_data[day][hour].course[special_hour] = selected_hour.eq(4).html();
+
+        schedule_data[day][hour].changed[special_hour] = selected_hour.eq(0).attr().class == 'tableCellNew' ? true : false;
+      }
+    }
+  }
+
+  return schedule_data;
+}
+
+module.exports = schedule;
