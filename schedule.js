@@ -3,10 +3,10 @@ var http = require('http');
 var cheerio = require('cheerio');
 
 //Wrapper function that is being called by express.
-function schedule(res, req, match) {
-  get(req.req.match.url, function (json) {
-    req.req.match.json = json;
-    res.res.send(json);
+function schedule(req, res, next) {
+  get(req.match.url, function (json) {
+    req.match.json = json;
+    next();
   });
 }
 
@@ -17,7 +17,7 @@ function get(url, callback) {
 
     res.on('data', function (data) {
       _download += data;
-    })
+    });
 
     res.on('end', function () {
       callback(to_json(_download));
