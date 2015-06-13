@@ -1,4 +1,4 @@
-//schedule.js
+//lookup.js
 var http = require('http');
 var database = require('mongoskin').db('mongodb://wallpiece/roosterio');
 var schoolid = 934;
