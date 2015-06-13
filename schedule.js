@@ -10,8 +10,9 @@ function lookup(req, res, next, search) {
     if (err) console.warn(err);
 
     if (database_entry.length == 1) {
-      var link = make_link(database_entry[0]);
-      res.redirect(link);
+      get(make_link(database_entry[0]), function (schedule) {
+        res.end(schedule);
+      });
     }
     else if (database_entry.length == 0) {
       res.send('No matches were found in the database.');
@@ -44,6 +45,10 @@ function make_link(database_entry) {
   }
 
   return link;
+}
+
+function get(link, callback) {
+  console.log(link);
 }
 
 module.exports = lookup;
