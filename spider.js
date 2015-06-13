@@ -72,19 +72,19 @@ function rip(data) {
 
               if (!isNaN(student)) {
                 var name = cheerio(list_students[student]).text().split(' - ')[1];
-                var id = parseInt(cheerio(list_students[student]).val());
-                data.type = data.type.replace(/rooster/g, '').toLowerCase();
+                var id = cheerio(list_students[student]).val();
+
                 var database_entry = {
                   'id' : id,
                   'username' : id + name.split(' ')[0].toLowerCase(),
-                  'full_name' : name,
+                  'name' : name,
                   'first_name' : name.split(' ')[0],
                   'last_name' : name.split(' ').splice(1).join(' '),
                   'studentcategory' : studentcategory,
-                  'type' : data.type
+                  'type' : data.type.replace(/rooster/g, '').toLowerCase()
                 }
 
-                collection.insert(database_entry, showOutput);
+                collection.insert(database_entry, show_output);
 
                 if (studentcategory == list[list.length - 1] && student == list_students.length - 1) {
                   database.close();
@@ -101,10 +101,10 @@ function rip(data) {
     for (entry of list) {
       var database_entry = {
         'name' : entry,
-        'type' : data.type
+        'type' : data.type.replace(/rooster/g, '').toLowerCase()
       }
 
-      collection.insert(database_entry, showOutput);
+      collection.insert(database_entry, show_output);
     }
   }
 }
@@ -122,7 +122,7 @@ function crawl(sid) {
 
 
 //Redundant function for draining native-mongodb-driver output
-function showOutput(error, message) {
+function show_output(error, message) {
   if (process.argv[3] == '-v') {
     // if (error) process.stdout.write(error.toString());
     if (message != null) console.log(message);
