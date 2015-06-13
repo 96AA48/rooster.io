@@ -10,82 +10,31 @@ var scheduletypes = [
   'Lokaalrooster'
 ];
 var schoolid;
+var database;
 
 //Function for getting pages with http requests.
-function get(database) {
-
-  var collection = database.collection('index');
-  collection.drop();
+function get() {
+  database.collection('index').drop();
 
   for (scheduletype of scheduletypes) {
+
     (function (scheduletype) {
 
       var link = 'http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + schoolid + '&type=' + scheduletype;
 
-      scheduletype = scheduletype.replace(/rooster/g, '').toLowerCase();
-
       http.get(link, function (res) {
-        var _download = '';
+
+        var _download = {};
+        _download.type = scheduletype;
 
         res.on('data', function (data) {
-          _download += data;
+          _download.data += data;
         });
 
         res.on('end', function () {
-          var list = extract(_download);
-
-          if (scheduletype == 'leerling') {
-            for(studentcategory of list) {
-              (function (studentcategory) {
-
-                http.get('http://' + res.req.socket._host + res.req.path + '&afdeling=' + studentcategory, function (res) {
-                  var _download = '';
-
-                  res.on('data', function (data) {
-                    _download += iconv.decode(data, 'binary');
-                  });
-
-                  res.on('end', function () {
-                    var list_students = cheerio('select', _download).children();
-
-                    for (student in list_students) {
-                      if (!isNaN(student)) {
-                        var name = cheerio(list_students[student]).text().split(' - ')[1];
-                        var id = parseInt(cheerio(list_students[student]).val());
-
-                        var database_entry = {
-                          'id' : id,
-                          'username' : id + name.split(' ')[0].toLowerCase(),
-                          'full_name' : name,
-                          'first_name' : name.split(' ')[0],
-                          'last_name' : name.split(' ').splice(1).join(' '),
-                          'studentcategory' : studentcategory,
-                          'type' : scheduletype
-                        }
-
-
-                        collection.insert(database_entry, showOutput);
-                        if (studentcategory == list[list.length - 1] && student == list_students.length - 1) {
-                          database.close();
-                        }
-                      }
-                    }
-                  });
-                });
-              })(studentcategory);
-            }
-          }
-          else {
-            for (entry of list) {
-              var database_entry = {
-                'name' : entry,
-                'type' : scheduletype
-              }
-              collection.insert(database_entry, showOutput);
-            }
-          }
-
+          rip(_download);
         });
+
       });
     })(scheduletype);
   }
@@ -98,14 +47,79 @@ function extract(page) {
 	return array.splice(1, array.length - 2);
 }
 
+//Function for ripping all of the information
+function rip(data) {
+  var list = extract(data.data);
+  var collection = database.collection('index');
+
+  if (data.type == 'Leerlingrooster') {
+
+    for(studentcategory of list) {
+
+      (function (studentcategory) {
+
+        http.get('http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + schoolid + '&type=' + data.type + '&afdeling=' + studentcategory, function (res) {
+          var _download = '';
+
+          res.on('data', function (data) {
+            _download += iconv.decode(data, 'binary');
+          });
+
+          res.on('end', function () {
+            var list_students = cheerio('select', _download).children();
+
+            for (student in list_students) {
+
+              if (!isNaN(student)) {
+                var name = cheerio(list_students[student]).text().split(' - ')[1];
+                var id = parseInt(cheerio(list_students[student]).val());
+                data.type = data.type.replace(/rooster/g, '').toLowerCase();
+                var database_entry = {
+                  'id' : id,
+                  'username' : id + name.split(' ')[0].toLowerCase(),
+                  'full_name' : name,
+                  'first_name' : name.split(' ')[0],
+                  'last_name' : name.split(' ').splice(1).join(' '),
+                  'studentcategory' : studentcategory,
+                  'type' : data.type
+                }
+
+                collection.insert(database_entry, showOutput);
+
+                if (studentcategory == list[list.length - 1] && student == list_students.length - 1) {
+                  database.close();
+                }
+
+              }
+            }
+          });
+        });
+      })(studentcategory);
+    }
+  }
+  else {
+    for (entry of list) {
+      var database_entry = {
+        'name' : entry,
+        'type' : data.type
+      }
+
+      collection.insert(database_entry, showOutput);
+    }
+  }
+}
+
 //Function being called to access functionality from this module.
 function crawl(sid) {
   schoolid = sid;
-  mongodb.connect('mongodb://wallpiece/roosterio', function (error, database) {
+  mongodb.connect('mongodb://wallpiece/roosterio', function (error, db) {
     if (error) console.warn(error);
-    get(database);
-  })
+    database = db;
+
+    get();
+  });
 }
+
 
 //Redundant function for draining native-mongodb-driver output
 function showOutput(error, message) {
