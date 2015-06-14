@@ -17,7 +17,6 @@ app.get('/', function (req, res) {
 
 app.post('/', function (req, res) {
   console.log(req);
-  // res.redirect('/rooster/' + req.body);
 });
 
 app.get('/rooster/:search', function (req, res) {
