@@ -7,6 +7,7 @@ var lookup = require('./lookup.js');
 var schedule = require('./schedule.js');
 
 app.set('view engine', 'jade');
+app.disable('view cache');
 app.set('views', __dirname + '/resources/jade');
 app.use('/css', less(__dirname + '/resources/less'));
 app.use('/js', express.static(__dirname + '/resources/js'));
@@ -32,8 +33,8 @@ app.param('search', lookup);
 app.param('search', schedule);
 
 app.param('search', function (req, res) {
-  res.render('schedule', req.match);
-  console.log(req.match.json[0][0]);
+  res.render('schedule', req);
+  console.log(req);
 });
 
 app.listen(1024);

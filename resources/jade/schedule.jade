@@ -1,10 +1,17 @@
+//- schedule.jade
+
 include header
+include search
 
 div.schedule
-  each day in json
+  each day in match.json
     div.day
       each hour in day
-        div.hour
-          span.teacher= hour.teacher
-          span.chamber= hour.chamber
-          span.course=  hour.course
+        if hour.teacher != 'vrij\r'
+          div.hour(class=hour.changed == 'true' ? 'changed' : '')
+            span.teacher= hour.teacher
+            span.chamber= hour.chamber
+            span.course=  hour.course
+        else 
+          div.hour.changed
+            span.free Vrij

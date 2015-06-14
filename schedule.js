@@ -42,7 +42,7 @@ function to_json(page) {
       var schedule = cheerio('tr:nth-child('+ (6 + hour) +')', result);
 
       //Looping for (optional) specialhours
-      var amount_of_special_hours = schedule.find('table').eq(0).children().length;
+      var amount_of_special_hours = schedule.find('table').eq(day).children().length;
       for (special_hour = 0; special_hour < amount_of_special_hours; special_hour++) {
         schedule_data[day][hour] = {teacher: [], chamber: [], course: [], changed: []};
         var selected_hour = schedule.find('table').eq(day).find('tr').eq(special_hour).find('td');
