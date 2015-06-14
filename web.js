@@ -15,25 +15,25 @@ app.use('/js', express.static(__dirname + '/resources/js'));
 
 app.get('/', function (req, res) {
     req.links = config().links;
-    console.log(req.links);
     res.render('homepage', req);
 });
 
 app.get('/rooster/:search', function (req, res) {
-  next();
+   next();
 });
 
 
 app.get('/over', function (req, res) {
-  res.send('Hier kun je lezen over werkmanrooster.');
+   res.send('Hier kun je lezen over werkmanrooster.');
 });
 
 app.param('search', lookup);
 app.param('search', schedule);
 
 app.param('search', function (req, res) {
-  res.render('schedule', req);
-  console.log(req);
+   req.links = config().links;
+   req.times = config().hour_times;
+   res.render('schedule', req);
 });
 
 app.listen(config().web_port);
