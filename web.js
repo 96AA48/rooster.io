@@ -14,11 +14,9 @@ app.use('/css', less(__dirname + '/resources/less'));
 app.use('/js', express.static(__dirname + '/resources/js'));
 
 app.get('/', function (req, res) {
-    res.render('homepage');
-});
-
-app.post('/', function (req, res) {
-  console.log(req);
+    req.links = config().links;
+    console.log(req.links);
+    res.render('homepage', req);
 });
 
 app.get('/rooster/:search', function (req, res) {

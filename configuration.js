@@ -18,7 +18,12 @@ module.exports = function () {
 				'14:40 - 15:40',
 				'15:40 - 16:40'
 			],
-      'school_id' : 934
+      'school_id' : 934,
+      'links' : {
+          'Login': ['#', '#96AA48'],
+          'Magister': ['http://werkman.magister.net', '#0C5489'],
+          'Mail': ['https://login.microsoftonline.com/', '#C41824']
+      }
     }
     fs.writeFileSync(__dirname + '/settings.json', JSON.stringify(settings, null, 2));
 

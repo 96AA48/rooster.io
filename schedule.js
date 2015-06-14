@@ -7,7 +7,6 @@ var config = require('./configuration');
 function schedule(req, res, next) {
   get(req.match.url, function (json) {
     req.match.json = json;
-    req.match.times = config().hour_times;
     next();
   });
 }

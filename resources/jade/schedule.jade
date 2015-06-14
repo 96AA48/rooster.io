@@ -18,8 +18,10 @@ div.schedule
             span.course=  hour.course
             
             if match.json.indexOf(day) == 0
-                span.time= match.times[match.json[0].indexOf(hour)]
+                span.time= times[match.json[0].indexOf(hour)]
             
         else 
           div.hour.changed
             span.free Vrij
+            
+include links

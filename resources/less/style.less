@@ -118,5 +118,33 @@ div.schedule {
       }
     }
   }
+}
 
+.links {
+    width: 100%;
+    position: fixed;
+    bottom: -90px;
+    transition: ease .5s;
+
+    &:hover {
+        bottom: 0px;
+        transition: ease .5s;
+    }
+
+    div {
+        height: 100px;
+        width: calc(100% / 3);
+        float: left;
+
+
+        a {
+            text-decoration: none;
+            height: 100%;
+            width: 100%;
+            display: inline-block;
+            color: #FFF;
+            text-align: center;
+            font-size: 60px;
+        }
+    }
 }
