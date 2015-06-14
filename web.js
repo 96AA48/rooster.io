@@ -33,6 +33,7 @@ app.param('search', schedule);
 
 app.param('search', function (req, res) {
   res.render('schedule', req.match);
+  console.log(req.match.json[0][0]);
 });
 
 app.listen(1024);

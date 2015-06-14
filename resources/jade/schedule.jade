@@ -1,1 +1,10 @@
 include header
+
+div.schedule
+  each day in json
+    div.day
+      each hour in day
+        div.hour
+          span.teacher= hour.teacher
+          span.chamber= hour.chamber
+          span.course=  hour.course

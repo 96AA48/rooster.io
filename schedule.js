@@ -45,7 +45,7 @@ function to_json(page) {
       var amount_of_special_hours = schedule.find('table').eq(0).children().length;
       for (special_hour = 0; special_hour < amount_of_special_hours; special_hour++) {
         schedule_data[day][hour] = {teacher: [], chamber: [], course: [], changed: []};
-        var selected_hour = schedule.find('table').eq(0).find('tr').eq(special_hour).find('td');
+        var selected_hour = schedule.find('table').eq(day).find('tr').eq(special_hour).find('td');
 
         schedule_data[day][hour].teacher[special_hour] = selected_hour.eq(0).html();
         schedule_data[day][hour].chamber[special_hour] = selected_hour.eq(2).html();
