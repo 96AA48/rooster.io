@@ -62,12 +62,13 @@ div.schedule {
     float: left;
 
     div.hour {
+      width: 150px;
       height: 20px;
       border-bottom: solid 1px #DDD;
       padding: 12px 15px;
       border-bottom: 1px solid #e1e1e1;
-      width: 150px;
       border-left: 1px solid #FFF;
+      position: relative;
 
       span {
         display: inline-block;
@@ -99,6 +100,15 @@ div.schedule {
           text-align: center;
           width: 100%;
         }
+      }
+
+      .time {
+          font-size: 10px;
+          color: #665;
+          width: 100%;
+          position: absolute;
+          top: 2px;
+          left: 5px;
       }
 
       .free {

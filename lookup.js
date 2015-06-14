@@ -1,7 +1,9 @@
 //lookup.js
 var http = require('http');
-var database = require('mongoskin').db('mongodb://wallpiece/roosterio');
-var schoolid = 934;
+var config = require('./configuration');
+
+var database = require('mongoskin').db('mongodb://' + config().database);
+var school_id = config().school_id;
 
 //Function for looking through the database and finding entries related to the searchterm.
 function lookup(req, res, next, search) {
@@ -25,7 +27,7 @@ function lookup(req, res, next, search) {
 
 //Function for making a link out of the given database_entry.
 function make_url(database_entry) {
-  var url = 'http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + schoolid + '&type=' + database_entry.type.charAt(0).toUpperCase() + database_entry.type.slice(1) + 'rooster';
+  var url = 'http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + school_id + '&type=' + database_entry.type.charAt(0).toUpperCase() + database_entry.type.slice(1) + 'rooster';
 
   switch (database_entry.type) {
     case 'leerling' :

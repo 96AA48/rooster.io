@@ -2,6 +2,7 @@ var http = require('http');
 var cheerio = require('cheerio');
 var iconv = require('iconv-lite');
 var mongodb = require('mongodb').MongoClient;
+var config = require('./configuration');
 
 var scheduletypes = [
   'Klasrooster',
@@ -110,9 +111,9 @@ function rip(data) {
 }
 
 //Function being called to access functionality from this module.
-function crawl(sid) {
-  school_id = sid;
-  mongodb.connect('mongodb://wallpiece/roosterio', function (error, db) {
+function crawl() {
+  school_id = config().school_id;
+  mongodb.connect('mongodb://' + config().database, function (error, db) {
     if (error) console.warn(error);
     database = db;
 

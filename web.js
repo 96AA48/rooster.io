@@ -1,10 +1,11 @@
 //web.js
+var config = require('./configuration');
 var express = require('express');
 var less = require('express-less');
 var app = express();
 
-var lookup = require('./lookup.js');
-var schedule = require('./schedule.js');
+var lookup = require('./lookup');
+var schedule = require('./schedule');
 
 app.set('view engine', 'jade');
 app.disable('view cache');
@@ -37,4 +38,4 @@ app.param('search', function (req, res) {
   console.log(req);
 });
 
-app.listen(1024);
+app.listen(config().web_port);

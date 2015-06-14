@@ -16,6 +16,10 @@ div.schedule
             span.teacher= hour.teacher
             span.chamber= hour.chamber
             span.course=  hour.course
+            
+            if match.json.indexOf(day) == 0
+                span.time= match.times[match.json[0].indexOf(hour)]
+            
         else 
           div.hour.changed
             span.free Vrij

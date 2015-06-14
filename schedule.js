@@ -1,11 +1,13 @@
 //schedule.js
 var http = require('http');
 var cheerio = require('cheerio');
+var config = require('./configuration');
 
 //Wrapper function that is being called by express.
 function schedule(req, res, next) {
   get(req.match.url, function (json) {
     req.match.json = json;
+    req.match.times = config().hour_times;
     next();
   });
 }
@@ -29,7 +31,7 @@ function get(url, callback) {
 function to_json(page) {
   var result = cheerio('td:nth-child(3) table', page);
   var amount_of_days = cheerio(result).find('tr.AccentDark').find('td').length - 1;
-  var amount_of_hours = 7;
+  var amount_of_hours = config().amount_of_hours;
 
   var schedule_data = [];
 
