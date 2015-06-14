@@ -3,9 +3,13 @@
 include header
 include search
 
+- var days = ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'];
+
 div.schedule
   each day in match.json
     div.day
+      div.hour.title
+        span= days[match.json.indexOf(day)]
       each hour in day
         if hour.teacher != 'vrij\r'
           div.hour(class=hour.changed == 'true' ? 'changed' : '')
