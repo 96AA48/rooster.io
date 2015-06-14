@@ -5,7 +5,6 @@ var app = express();
 
 var lookup = require('./lookup.js');
 var schedule = require('./schedule.js');
-var render = require('./render.js');
 
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/resources/jade');
