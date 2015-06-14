@@ -9,7 +9,7 @@ var scheduletypes = [
   'Leerlingrooster',
   'Lokaalrooster'
 ];
-var schoolid;
+var school_id;
 var database;
 
 //Function for getting pages with http requests.
@@ -20,7 +20,7 @@ function get() {
 
     (function (scheduletype) {
 
-      var link = 'http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + schoolid + '&type=' + scheduletype;
+      var link = 'http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + school_id + '&type=' + scheduletype;
 
       http.get(link, function (res) {
 
@@ -58,7 +58,7 @@ function rip(data) {
 
       (function (studentcategory) {
 
-        http.get('http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + schoolid + '&type=' + data.type + '&afdeling=' + studentcategory, function (res) {
+        http.get('http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + school_id + '&type=' + data.type + '&afdeling=' + studentcategory, function (res) {
           var _download = '';
 
           res.on('data', function (data) {
@@ -111,7 +111,7 @@ function rip(data) {
 
 //Function being called to access functionality from this module.
 function crawl(sid) {
-  schoolid = sid;
+  school_id = sid;
   mongodb.connect('mongodb://wallpiece/roosterio', function (error, db) {
     if (error) console.warn(error);
     database = db;
