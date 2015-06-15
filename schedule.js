@@ -36,7 +36,7 @@ function to_json(page) {
 
   //Looping for amount of days
   for (day = 0; day < amount_of_days; day++) {
-    schedule_data[day] = [];
+     schedule_data[day] = [];
 
     //Looping for amount of hours
     for (hour = 0; hour < amount_of_hours; hour++) {
@@ -44,15 +44,15 @@ function to_json(page) {
 
       //Looping for (optional) specialhours
       var amount_of_special_hours = schedule.find('table').eq(day).children().length;
+      schedule_data[day][hour] = {teacher: [], chamber: [], course: [], changed: []};
       for (special_hour = 0; special_hour < amount_of_special_hours; special_hour++) {
-        schedule_data[day][hour] = {teacher: [], chamber: [], course: [], changed: []};
-        var selected_hour = schedule.find('table').eq(day).find('tr').eq(special_hour).find('td');
+         var selected_hour = schedule.find('table').eq(day).find('tr').eq(special_hour).find('td');
 
-        schedule_data[day][hour].teacher[special_hour] = selected_hour.eq(0).html();
-        schedule_data[day][hour].chamber[special_hour] = selected_hour.eq(2).html();
-        schedule_data[day][hour].course[special_hour] = selected_hour.eq(4).html();
+         schedule_data[day][hour].teacher[special_hour] = selected_hour.eq(0).html();
+         schedule_data[day][hour].chamber[special_hour] = selected_hour.eq(2).html();
+         schedule_data[day][hour].course[special_hour] = selected_hour.eq(4).html();
 
-        schedule_data[day][hour].changed[special_hour] = selected_hour.eq(0).attr().class == 'tableCellNew' ? true : false;
+         schedule_data[day][hour].changed[special_hour] = selected_hour.eq(0).attr().class == 'tableCellNew' ? true : false;
       }
     }
   }
