@@ -12,7 +12,7 @@ function lookup(req, res, next, search) {
     if (err) console.warn(err);
 
     if (database_entry.length == 1) {
-      database_entry[0].url = make_url(database_entry[0]);
+      database_entry[0].url = make_url(req, database_entry[0]);
       req.match = database_entry[0];
       next();
     }
@@ -26,7 +26,7 @@ function lookup(req, res, next, search) {
 }
 
 //Function for making a link out of the given database_entry.
-function make_url(database_entry) {
+function make_url(req, database_entry) {
   var url = 'http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + school_id + '&type=' + database_entry.type.charAt(0).toUpperCase() + database_entry.type.slice(1) + 'rooster';
 
   switch (database_entry.type) {
@@ -46,6 +46,8 @@ function make_url(database_entry) {
       url += '&klassen=' + database_entry.name;
     break;
   }
+
+  if (req.query.tab) url += '&tabblad=' + req.query.tab
 
   return url;
 }
