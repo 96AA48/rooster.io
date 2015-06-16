@@ -29,10 +29,13 @@ function get(url, callback) {
 //Function for converting the page into a json dataset.
 function to_json(page) {
   var result = cheerio('td:nth-child(3) table', page);
+  var is_teacher = cheerio(cheerio(page).find('tr.CoreDark').find('td')[3]).find('a').html() == null;
   var amount_of_days = cheerio(result).find('tr.AccentDark').find('td').length - 1;
   var amount_of_hours = config().amount_of_hours;
 
   var schedule_data = [];
+
+  var offset = is_teacher ? 5 : 6;
 
   //Looping for amount of days
   for (day = 0; day < amount_of_days; day++) {
@@ -40,7 +43,7 @@ function to_json(page) {
 
     //Looping for amount of hours
     for (hour = 0; hour < amount_of_hours; hour++) {
-      var schedule = cheerio('tr:nth-child('+ (6 + hour) +')', result);
+      var schedule = cheerio('tr:nth-child('+ (offset + hour) +')', result);
 
       //Looping for (optional) specialhours
       var amount_of_special_hours = schedule.find('table').eq(day).children().length;
@@ -50,7 +53,7 @@ function to_json(page) {
          //Give the value of the schedule hour to the fitting array.
          schedule_data[day][hour].teacher[special_hour] = selected_hour.eq(0).html();
          schedule_data[day][hour].chamber[special_hour] = selected_hour.eq(2).html();
-         schedule_data[day][hour].course[special_hour] = selected_hour.eq(4).html( );
+         schedule_data[day][hour].course[special_hour] = selected_hour.eq(4).html();
          //Check if the hour is 'changed' by the schedule authors, if so set to true.
          schedule_data[day][hour].changed[special_hour] = selected_hour.eq(0).attr().class == 'tableCellNew' ? true : false;
       }
