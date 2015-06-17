@@ -11,11 +11,13 @@ div.schedule
       div.hour.title
         span= days[match.json.indexOf(day)]
       each hour in day
-        if hour.teacher != 'vrij\r'
+        if hour.teacher != 'vrij\r' && hour.teacher != 'vrij'
           div.hour(class=hour.changed == 'true' ? 'changed' : '')
             each subhour in hour.teacher
-               span.teacher(class='sub_' + hour.teacher.length)= hour.teacher[hour.teacher.indexOf(subhour)]
-               span.chamber(class='sub_' + hour.teacher.length)= hour.chamber[hour.teacher.indexOf(subhour)]
+               span.teacher(class='sub_' + hour.teacher.length)
+                  a(href=hour.teacher[hour.teacher.indexOf(subhour)])= hour.teacher[hour.teacher.indexOf(subhour)]
+               span.chamber(class='sub_' + hour.teacher.length)
+                  a(href=hour.chamber[hour.teacher.indexOf(subhour)])= hour.chamber[hour.teacher.indexOf(subhour)]
                span.course(class='sub_' + hour.teacher.length)=  hour.course[hour.teacher.indexOf(subhour)]
             
             if match.json.indexOf(day) == 0
