@@ -8,6 +8,7 @@ var school_id = config().school_id;
 //Function for looking through the database and finding entries related to the searchterm.
 function lookup(req, res, next, search) {
   var index = database.collection('index');
+  search = new RegExp(search, 'i'); //Make regular exeption for ignoring the case (Bram vs BRAM) should return the same.
   index.find({$or : [{id : search}, {name : search}, {first_name : search}, {last_name : search}]}).toArray(function (err, database_entry) {
     if (err) console.warn(err);
 
