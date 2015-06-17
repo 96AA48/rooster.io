@@ -51,9 +51,9 @@ function to_json(page) {
       for (special_hour = 0; special_hour < amount_of_special_hours; special_hour++) {
          var selected_hour = schedule.find('table').eq(day).find('tr').eq(special_hour).find('td');
          //Give the value of the schedule hour to the fitting array.
-         schedule_data[day][hour].teacher[special_hour] = selected_hour.eq(0).html();
-         schedule_data[day][hour].chamber[special_hour] = selected_hour.eq(2).html();
-         schedule_data[day][hour].course[special_hour] = selected_hour.eq(4).html();
+         schedule_data[day][hour].teacher[special_hour] = selected_hour.eq(0).text();
+         schedule_data[day][hour].chamber[special_hour] = selected_hour.eq(2).text();
+         schedule_data[day][hour].course[special_hour] = selected_hour.eq(4).text();
          //Check if the hour is 'changed' by the schedule authors, if so set to true.
          schedule_data[day][hour].changed[special_hour] = selected_hour.eq(0).attr().class == 'tableCellNew' ? true : false;
       }
