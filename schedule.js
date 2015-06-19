@@ -51,7 +51,7 @@ function to_json(page) {
       for (subhour = 0; subhour < amount_of_special_hours; subhour++) {
          var selected_hour = schedule.find('table').eq(day).find('tr').eq(subhour).find('td');
          //Give the value of the schedule hour to the fitting array.
-         schedule_data[day][hour].teacher[subhour] = selected_hour.eq(0).text();
+         schedule_data[day][hour].teacher[subhour] = selected_hour.eq(0).text().replace(/\r|\n/g, '');
          schedule_data[day][hour].chamber[subhour] = selected_hour.eq(2).text();
          schedule_data[day][hour].course[subhour] = selected_hour.eq(4).text();
          //Check if the hour is 'changed' by the schedule authors, if so set to true.

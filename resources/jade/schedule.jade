@@ -11,7 +11,7 @@ div.schedule
       div.hour.title
         span= days[match.json.indexOf(day)]
       each hour in day
-        if hour.teacher != 'vrij\r' && hour.teacher != 'vrij'
+        if hour.teacher != 'vrij'
           div.hour(class=hour.changed == 'true' ? 'changed' : '')
             each subhour in hour.teacher
                span.teacher(class='sub_' + hour.teacher.length)
