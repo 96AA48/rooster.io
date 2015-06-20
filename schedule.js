@@ -26,9 +26,21 @@ function get(url, callback) {
   });
 }
 
+function schedule_types(page) {
+   var extract = cheerio('table tr td[valign="bottom"] table tr td b, table tr td[valign="bottom"] table tr td a', page).text().split(/\s\s/);
+   var types = [];
+
+   for (element of extract) {
+      element != '' ? types.push(element) : null;
+   }
+   
+   return types
+}
+
 //Function for converting the page into a json dataset.
 function to_json(page) {
   var result = cheerio('td:nth-child(3) table', page);
+  var types = schedule_types(page);
   var is_teacher = cheerio(cheerio(page).find('tr.CoreDark').find('td')[3]).find('a').html() == null;
   var amount_of_days = cheerio(result).find('tr.AccentDark').find('td').length - 1;
   var amount_of_hours = config().amount_of_hours;
