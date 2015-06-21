@@ -34,12 +34,10 @@ function schedule_types(page) {
    for (element of extract) {
          element != '' ? types.push({
            'letter': element.substr(0, 1),
-           'value' : element.match(/.*(?:rooster)|t\/m|\d\d\s\w{3}/g).join(' ').slice(1).replace(/rooster/, ''),
+           'value' : element.match(/.*rooster|t\/m|\d\d\s\w{3}/g).join(' ').slice(1),
            'tab': tab++
          }) : null;
    }
-
-   console.log(types);
 
    return types;
 }
