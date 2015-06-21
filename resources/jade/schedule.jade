@@ -6,6 +6,11 @@ include search
 - var days = ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'];
 
 div.schedule
+  ul
+    each type in match.json.types
+      li
+        span=type.letter
+        a(href='?tab=' + type.tab)=type.value
   each day in match.json
     div.day
       div.hour.title

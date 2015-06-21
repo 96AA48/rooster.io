@@ -28,13 +28,20 @@ function get(url, callback) {
 
 function schedule_types(page) {
    var extract = cheerio('table tr td[valign="bottom"] table tr td b, table tr td[valign="bottom"] table tr td a', page).text().split(/\s\s/);
+   var tab = 0;
    var types = [];
 
    for (element of extract) {
-      element != '' ? types.push(element) : null;
+         element != '' ? types.push({
+           'letter': element.substr(0, 1),
+           'value' : element.match(/.*(?:rooster)|t\/m|\d\d\s\w{3}/g).join(' ').slice(1).replace(/rooster/, ''),
+           'tab': tab++
+         }) : null;
    }
-   
-   return types
+
+   console.log(types);
+
+   return types;
 }
 
 //Function for converting the page into a json dataset.
@@ -71,6 +78,8 @@ function to_json(page) {
       }
     }
   }
+
+  schedule_data.types = types;
 
   return schedule_data;
 }

@@ -58,6 +58,50 @@ div.schedule {
   border: solid 1px #e1e1e1;
   font-family: Open Sans;
 
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: right;
+    background-color: #e1e1e1;
+
+    li {
+      width: 25px;
+      height: 25px;
+      color: #FFF;
+      font-family: Oswald;
+      text-align: center;
+      display: inline-block;
+      overflow: hidden;
+      -webkit-transition: 1s ease;
+
+      &:hover {
+        -webkit-transition: 1s ease;
+        width: 160px;
+      }
+
+      &:first-child span {
+        background-color: #0C5489;
+      }
+
+      &:last-child span {
+        background-color: #C41824;
+      }
+
+      span {
+        width: 25px;
+        height: 25px;
+        display: inline-block;
+        background-color: #96aa48;
+      }
+
+      a {
+        text-decoration: none;
+        color: #000;
+      }
+    }
+  }
+
   div.day {
     float: left;
 
