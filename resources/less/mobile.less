@@ -1,4 +1,67 @@
 //mobile.less
-body {
-   
+/* Larger than mobile */
+
+/* Larger than phablet */
+@media (max-width: 550px) {}
+
+/* Larger than tablet */
+@media (max-width: 755px) {
+  #title {
+    font-size: 40px !important;
+  }
+
+  input, button {
+    width: 80% !important;
+  }
+
+  #wrapper {
+    overflow: hidden;
+    overflow-x: auto;
+    width: 100% !important;
+  }
+
+  .schedule {
+    width: 500% !important;
+    padding: 0px;
+
+    div.day {
+      width: 20% !important;
+
+      .hour {
+        width: 100% !important;
+        height: 45px !important;
+        line-height: 45px;
+      }
+    }
+
+    ul {
+      position: absolute;
+      left: 0px;
+      z-index: 1;
+      background: none !important;
+
+      li {
+        height: 50px !important;
+        width: 50px !important;
+        span {
+          height: 50px !important;
+          width: 50px !important;
+          line-height: 50px;
+          font-size: 25px;
+        }
+
+      }
+    }
+  }
+
+}
+
+@media (max-width: 400px) {
+  #title {
+    font-size: 25px !important;
+
+    span {
+      display: none !important;
+    }
+  }
 }

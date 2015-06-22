@@ -4,32 +4,32 @@ include header
 include search
 
 - var days = ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'];
-
-div.schedule
-  ul
-    each type in match.json.types
-      li
-        span=type.letter
-        a(href='?tab=' + type.tab)=type.value
-  each day in match.json
-    div.day
-      div.hour.title
-        span= days[match.json.indexOf(day)]
-      each hour in day
-        if hour.teacher != 'vrij'
-          div.hour(class=hour.changed == 'true' ? 'changed' : '')
-            each subhour in hour.teacher
-               span.teacher(class='sub_' + hour.teacher.length)
-                  a(href=hour.teacher[hour.teacher.indexOf(subhour)])= hour.teacher[hour.teacher.indexOf(subhour)]
-               span.chamber(class='sub_' + hour.teacher.length)
-                  a(href=hour.chamber[hour.teacher.indexOf(subhour)])= hour.chamber[hour.teacher.indexOf(subhour)]
-               span.course(class='sub_' + hour.teacher.length)=  hour.course[hour.teacher.indexOf(subhour)]
-            
-            if match.json.indexOf(day) == 0
-                span.time= times[match.json[0].indexOf(hour)]
-            
-        else 
-          div.hour.changed
-            span.free Vrij
-            
+div#wrapper
+  div.schedule
+    ul
+      each type in match.json.types
+        li
+          span=type.letter
+          a(href='?tab=' + type.tab)=type.value
+    each day in match.json
+      div.day
+        div.hour.title
+          span= days[match.json.indexOf(day)]
+        each hour in day
+          if hour.teacher != 'vrij'
+            div.hour(class=hour.changed == 'true' ? 'changed' : '')
+              each subhour in hour.teacher
+                 span.teacher(class='sub_' + hour.teacher.length)
+                    a(href=hour.teacher[hour.teacher.indexOf(subhour)])= hour.teacher[hour.teacher.indexOf(subhour)]
+                 span.chamber(class='sub_' + hour.teacher.length)
+                    a(href=hour.chamber[hour.teacher.indexOf(subhour)])= hour.chamber[hour.teacher.indexOf(subhour)]
+                 span.course(class='sub_' + hour.teacher.length)=  hour.course[hour.teacher.indexOf(subhour)]
+              
+              if match.json.indexOf(day) == 0
+                  span.time= times[match.json[0].indexOf(hour)]
+              
+          else 
+            div.hour.changed
+              span.free Vrij
+              
 include links
