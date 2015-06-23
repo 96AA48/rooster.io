@@ -12,6 +12,7 @@ app.disable('view cache');
 app.set('views', __dirname + '/resources/jade');
 app.use('/css', less(__dirname + '/resources/less'));
 app.use('/js', express.static(__dirname + '/resources/js'));
+app.use('/other', express.static(__dirname + '/resources/other'));
 
 app.get('/', function (req, res) {
     req.links = config().links;

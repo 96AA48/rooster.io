@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+    <ShortName>rooster</ShortName>
+    <LongName>rooster zoeken</LongName>
+    <Description>De beste roostersite voor leerlingen van Werkman Stadslyceum</Description>
+    <InputEncoding>UTF-8</InputEncoding>
+    <OutputEncoding>UTF-8</OutputEncoding>
+    <AdultContent>false</AdultContent>
+    <Language>nl-NL</Language>
+    <Developer>Bram van der Veen</Developer>
+    <Contact>werkmanrooster@gmail.com</Contact>
+    <Description>De beste roostersite voor leerlingen van Werkman Stadslyceum</Description>
+    <Tags>werkman rooster werkmanrooster leerlingen groningen stadslyceum bram van der veen</Tags>
+    <Attribution>Werkmanrooster zoeken op, http://werkmanrooster.nl/</Attribution>
+    <SyndicationRight>open</SyndicationRight>
+    <!-- <Query role="example" searchTerms="Apple"/>
+    	<Image height="16" width="16" type="image/vnd.microsoft.icon">http://werkmanrooster.nl/resources/fav.ico</Image>
+    	<Image height="64" width="64" type="image/png">http://werkmanrooster.nl/resources/fav.png</Image>
+    <Url type="text/html" template="http://werkmanrooster.nl/rooster/{searchTerms}"/> -->
+</OpenSearchDescription>

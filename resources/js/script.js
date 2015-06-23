@@ -13,7 +13,7 @@ $(document).ready(function () {
 
 
 function go() {
-  var searchterm = $('.search').val().trim();
+  var searchterm = $('.search').val().trim().replace(/\'s Rooster/gi, '');
   if (!!searchterm) {
     document.location.pathname = '/rooster/' + searchterm;
   }

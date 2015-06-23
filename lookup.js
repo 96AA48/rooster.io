@@ -1,6 +1,7 @@
 //lookup.js
 var http = require('http');
 var config = require('./configuration');
+var fs = require('fs');
 
 var database = require('mongoskin').db('mongodb://' + config().database);
 var school_id = config().school_id;
@@ -8,7 +9,11 @@ var school_id = config().school_id;
 //Function for looking through the database and finding entries related to the searchterm.
 function lookup(req, res, next, search) {
   var index = database.collection('index');
+  easter(search) ? req.easter = easter(search) : null;
+  easter(search) ? search = easter(search).name : null; //Check if there are any eastereggs matching the search query.
   search = new RegExp(search, 'i'); //Make regular exeption for ignoring the case (Bram vs BRAM) should return the same.
+
+
   index.find({$or : [{id : search}, {name : search}, {first_name : search}, {last_name : search}]}).toArray(function (err, database_entry) {
     if (err) console.warn(err);
 
@@ -22,6 +27,7 @@ function lookup(req, res, next, search) {
     }
     else {
       res.send('Multiple hits were found in the database.');
+      console.log(database_entry);
     }
   });
 }
@@ -53,4 +59,21 @@ function make_url(req, database_entry) {
   return url;
 }
 
+//Function for checking the given search query for eatereggs.
+//TODO: add a way to supply a template file for eastereggs.
+function easter(search) {
+  var list = JSON.parse(fs.readFileSync(__dirname + '/eastereggs.json'));
+
+  for (entry of list) {
+    if (entry.easter == search.toLowerCase()) return entry;
+  }
+
+  return null;
+}
+
 module.exports = lookup;
+
+//Testing function, if test is passed in the command line will execute a test.
+if (process.argv[2] == "test") {
+  console.log(easter('aardappel'));
+}
