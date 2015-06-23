@@ -7,9 +7,12 @@ var app = express();
 var lookup = require('./lookup');
 var schedule = require('./schedule');
 
+//Set up jade rendering engine.
 app.set('view engine', 'jade');
-app.disable('view cache');
+config().env == 'dev' ? app.disable('view cache') : null; //If the environment is set on 'dev' then view cache should be disabled.
 app.set('views', __dirname + '/resources/jade');
+
+//Set up all static directories for getting resources.
 app.use('/css', less(__dirname + '/resources/less'));
 app.use('/js', express.static(__dirname + '/resources/js'));
 app.use('/other', express.static(__dirname + '/resources/other'));
