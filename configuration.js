@@ -26,7 +26,7 @@ module.exports = function () {
             'Mail': ['https://login.microsoftonline.com/', '#C41824']
          }
       }
-      fs.writeFileSync(__dirname + '/settings.json', JSON.stringify(settings, null, 2));
+      fs.writeFileSync(__dirname + '/settings.json', JSON.stringify(settings, null, 2)); //Write it to file as prettyprinted json.
 
       return settings;
    }
