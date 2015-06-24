@@ -1,0 +1,10 @@
+//- multiple_found.jade
+include header
+include search
+
+.container
+  ul.found
+    for entry in found
+      li
+        a(href='/rooster/' + entry.name)=entry.name
+  

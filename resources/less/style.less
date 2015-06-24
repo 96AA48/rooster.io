@@ -5,6 +5,46 @@
   margin-top: 10%;
 }
 
+.center {
+  text-align: center;
+}
+
+.notfound {
+  margin: 20px auto;
+}
+
+ul.found {
+  list-style: none;
+  text-align: center;
+  margin-top: 20px;
+
+  li {
+    border-bottom: solid 1px #AAA;
+    border-top: solid 1px #DDD;
+    padding: 0;
+    margin: 0 auto;
+    font-size: 25px;
+    width: 50%;
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:first-child {
+      border-top: none;
+    }
+
+    &:hover {
+      background-color: #E1E1E1;
+    }
+  }
+}
+
 .search {
   margin: 0 auto;
   width: 50%;

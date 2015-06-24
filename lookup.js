@@ -23,11 +23,11 @@ function lookup(req, res, next, search) {
       next();
     }
     else if (database_entry.length == 0) {
-      res.send('No matches were found in the database.');
+      res.render('not_found');
     }
     else {
-      res.send('Multiple hits were found in the database.');
-      console.log(database_entry);
+      req.found = database_entry;
+      res.render('multiple_found', req);
     }
   });
 }
