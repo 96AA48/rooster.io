@@ -55,7 +55,6 @@ h1#title {
 div.schedule {
   display: table;
   margin: 10px auto;
-  border: solid 1px #e1e1e1;
   font-family: Open Sans;
 
   &.rip {
@@ -74,7 +73,6 @@ div.schedule {
     padding: 0;
     list-style: none;
     text-align: right;
-    background-color: #e1e1e1;
 
     li {
       width: 25px;
@@ -116,14 +114,23 @@ div.schedule {
   div.day {
     float: left;
 
+    &:nth-child(2) {
+      .hour {
+        border-left: none !important;
+      }
+    }
+
     div.hour {
       width: 150px;
       height: 20px;
-      border-bottom: solid 1px #DDD;
       padding: 12px 0px;
-      border-bottom: 1px solid #e1e1e1;
-      border-left: 1px solid #FFF;
       position: relative;
+      border-bottom: solid 1px #000;
+      border-left: solid 1px #000;
+
+      &:last-child {
+        border-bottom: none;
+      }
 
       a {
          text-decoration: none;
@@ -162,8 +169,10 @@ div.schedule {
 
       &.title {
         text-align: center;
-        background-color: #E1E1E1;
-        border-color: #E1E1E1;
+        background-color: #000;
+        color: #FFF;
+        text-transform: uppercase;
+        font-family: Oswald;
 
         span {
           text-align: center;
