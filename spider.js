@@ -24,6 +24,7 @@ function get() {
 
       var options = url.parse('http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + school_id + '&type=' + scheduletype);
       options.socksPort = config().tor_port;
+      options.socksHost = config().tor_host;
 
       http.get(options, function (res) {
 
@@ -62,6 +63,7 @@ function rip(data) {
       (function (studentcategory) {
         var options = url.parse('http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + school_id + '&type=' + data.type + '&afdeling=' + studentcategory);
         options.socksPort = config().tor_port;
+        options.socksHost = config().tor_host;
 
         http.get(options, function (res) {
           var _download = '';

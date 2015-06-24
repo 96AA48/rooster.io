@@ -17,6 +17,7 @@ function get(url, callback) {
 
   var options = url.parse(url);
   options.socksPort = config().tor_port;
+  options.socksHost = config().tor_host;
 
   console.log(options);
 

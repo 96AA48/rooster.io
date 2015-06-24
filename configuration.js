@@ -9,6 +9,7 @@ module.exports = function () {
          'env' : 'dev',
          'database' : 'example.com/database',
          'web_port' : 1024,
+         'tor_host' : 'example.com',
          'tor_port' : 9050,
          'amount_of_hours' : 7,
          'hour_times' : [
