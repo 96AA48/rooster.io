@@ -24,7 +24,8 @@ module.exports = function () {
             'Login': ['#', '#96AA48'],
             'Magister': ['http://werkman.magister.net', '#0C5489'],
             'Mail': ['https://login.microsoftonline.com/', '#C41824']
-         }
+         },
+         'spider_timeout' : 1000
       }
       fs.writeFileSync(__dirname + '/settings.json', JSON.stringify(settings, null, 2)); //Write it to file as prettyprinted json.
 

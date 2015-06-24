@@ -88,7 +88,9 @@ function rip(data) {
                 collection.insert(database_entry, show_output);
 
                 if (studentcategory == list[list.length - 1] && student == list_students.length - 1) {
-                  database.close();
+                  setTimeout(function () {
+                    database.close();
+                  }, config().spider_timeout);
                 }
 
               }
