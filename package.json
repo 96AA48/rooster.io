@@ -15,6 +15,7 @@
     "express-less": "0.0.7",
     "jade": "^1.11.0",
     "mongodb": "^1.4.38",
-    "mongoskin": "^1.4.13"
+    "mongoskin": "^1.4.13",
+    "socks5-http-client": "^1.0.1"
   }
 }
