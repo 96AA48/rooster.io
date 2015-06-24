@@ -1,5 +1,4 @@
 //lookup.js
-var http = require('http');
 var config = require('./configuration');
 var fs = require('fs');
 
