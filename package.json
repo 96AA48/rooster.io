@@ -9,11 +9,12 @@
   "author": "Bram van der Veen",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.13.1",
     "cheerio": "^0.19.0",
     "express": "^4.12.4",
     "express-less": "0.0.7",
     "jade": "^1.11.0",
     "mongodb": "^1.4.38",
-    "mongoskin": "^1.4.13"
+    "mongoskin": "^1.4.13",
   }
 }
