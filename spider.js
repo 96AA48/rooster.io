@@ -1,8 +1,9 @@
-var http = require('http');
+var http = require('socsk5-http-client');
 var cheerio = require('cheerio');
 var iconv = require('iconv-lite');
 var mongodb = require('mongodb').MongoClient;
 var config = require('./configuration');
+var url = require('url');
 
 var scheduletypes = [
   'Klasrooster',
@@ -21,9 +22,10 @@ function get() {
 
     (function (scheduletype) {
 
-      var link = 'http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + school_id + '&type=' + scheduletype;
+      var options = url.parse('http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + school_id + '&type=' + scheduletype);
+      options.socksPort = config().tor_port;
 
-      http.get(link, function (res) {
+      http.get(options, function (res) {
 
         var _download = {};
         _download.type = scheduletype;
@@ -58,8 +60,10 @@ function rip(data) {
     for(studentcategory of list) {
 
       (function (studentcategory) {
+        var options = url.parse('http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + school_id + '&type=' + data.type + '&afdeling=' + studentcategory);
+        options.socksPort = config().tor_port;
 
-        http.get('http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + school_id + '&type=' + data.type + '&afdeling=' + studentcategory, function (res) {
+        http.get(options, function (res) {
           var _download = '';
 
           res.on('data', function (data) {

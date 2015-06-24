@@ -1,7 +1,8 @@
 //schedule.js
-var http = require('http');
+var http = require('socks5-http-client');
 var cheerio = require('cheerio');
 var config = require('./configuration');
+var url = require('url');
 
 //Wrapper function that is being called by express.
 function schedule(req, res, next) {
@@ -13,7 +14,13 @@ function schedule(req, res, next) {
 
 //Function for getting the page via http.
 function get(url, callback) {
-  http.get(url, function (res) {
+
+  var options = url.parse(url);
+  options.socksPort = config().tor_port;
+
+  console.log(options);
+
+  http.get(options, function (res) {
     var _download = '';
 
     res.on('data', function (data) {
