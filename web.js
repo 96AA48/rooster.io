@@ -21,7 +21,6 @@ app.use('/other', express.static(__dirname + '/resources/other'));
 
 app.get('/', function (req, res) {
   req.links = config().links;
-  console.log(req.user);
   res.render('homepage', req);
 });
 

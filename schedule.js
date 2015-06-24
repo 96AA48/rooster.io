@@ -13,13 +13,11 @@ function schedule(req, res, next) {
 }
 
 //Function for getting the page via http.
-function get(url, callback) {
-
-  var options = url.parse(url);
+function get(get_url, callback) {
+  
+  var options = url.parse(get_url);
   options.socksPort = config().tor_port;
   options.socksHost = config().tor_host;
-
-  console.log(options);
 
   http.get(options, function (res) {
     var _download = '';

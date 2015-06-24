@@ -1,4 +1,4 @@
-var http = require('socsk5-http-client');
+var http = require('socks5-http-client');
 var cheerio = require('cheerio');
 var iconv = require('iconv-lite');
 var mongodb = require('mongodb').MongoClient;
