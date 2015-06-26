@@ -2,6 +2,7 @@
 var express = require('express');
 var less = require('express-less');
 var body_parser = require('body-parser');
+var fs = require('fs');
 
 var config = require('./configuration');
 var lookup = require('./lookup');
@@ -42,3 +43,16 @@ app.param('search', function (req, res) {
 });
 
 app.listen(config().web_port);
+plugins();
+
+function plugins() {
+  var plugins_directory = fs.readdirSync(__dirname + '/plugins');
+
+  for (plugin of plugins_directory) {
+    var app = __dirname + '/plugins/' + plugin + '/app.js';
+    if (fs.existsSync(app)) {
+      var app = require(app)(config().web_port + (1 + plugin.indexOf(plugins_directory)));
+    }
+  }
+
+}
