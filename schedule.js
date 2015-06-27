@@ -5,16 +5,19 @@ var config = require('./configuration');
 var url = require('url');
 
 //Wrapper function that is being called by express.
-function schedule(req, res, next) {
-  get(req.match.url, function (json) {
+function get(req, res, next) {
+  get_schedule(req.match.url, function (json) {
     req.match.json = json;
     next();
   });
 }
 
+function api(lookup, callback) {
+  get_schedule(lookup.data[0].url, callback)
+}
+
 //Function for getting the page via http.
-function get(get_url, callback) {
-  
+function get_schedule(get_url, callback) {
   var options = url.parse(get_url);
   options.socksPort = config().tor_port;
   options.socksHost = config().tor_host;
@@ -89,4 +92,4 @@ function to_json(page) {
 }
 
 //Exporting the schedule function.
-module.exports = schedule;
+module.exports = {'get': get, 'api': api};

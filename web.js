@@ -4,6 +4,7 @@ var less = require('express-less');
 var body_parser = require('body-parser');
 var fs = require('fs');
 
+var api = require('./api');
 var config = require('./configuration');
 var lookup = require('./lookup');
 var schedule = require('./schedule');
@@ -25,16 +26,18 @@ app.get('/', function (req, res) {
   res.render('homepage', req);
 });
 
+app.get('/api/:api', function (req, res) {
+
+});
+
+app.param('api', api);
+
 app.get('/rooster/:search', function (req, res) {
   next();
 });
 
-app.get('/over', function (req, res) {
-  res.send('Hier kun je lezen over werkmanrooster.');
-});
-
-app.param('search', lookup);
-app.param('search', schedule);
+app.param('search', lookup.get);
+app.param('search', schedule.get);
 
 app.param('search', function (req, res) {
   req.links = config().links;
