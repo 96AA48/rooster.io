@@ -8,6 +8,7 @@ var api = require('./api');
 var config = require('./configuration');
 var lookup = require('./lookup');
 var schedule = require('./schedule');
+var auth = require('./auth');
 
 var app = express();
 
@@ -21,18 +22,24 @@ app.use('/css', less(__dirname + '/resources/less'));
 app.use('/js', express.static(__dirname + '/resources/js'));
 app.use('/other', express.static(__dirname + '/resources/other'));
 
-app.get('/', function (req, res) {
+//Other things that need to be setup
+// app.use(body_parser);
+
+app.get('/', auth.is, function (req, res) {
   req.links = config().links;
   res.render('homepage', req);
 });
 
-app.get('/api/:api', function (req, res) {
-
+app.get('/login', function (req, res) {
+  res.render('login');
 });
 
+app.post('/login', auth.login);
+
+app.get('/api/:api', function (req, res, next) { next(); });
 app.param('api', api);
 
-app.get('/rooster/:search', function (req, res) {
+app.get('/rooster/:search', function (req, res, next) {
   next();
 });
 
