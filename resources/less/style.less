@@ -77,10 +77,40 @@ input.search {
 }
 
 .bar {
-  height: 10px;
+  height: 20px;
   width: 100%;
   background-color: #96aa48;
   margin-bottom: 50px;
+
+  ul {
+    list-style: none;
+    display: inline;
+
+    &.right li {
+      float: right;
+    }
+
+    li {
+      display: inline-block;
+      margin: 0 7px;
+      font-size: 13px;
+      color: #FFF;
+
+      a {
+        text-decoration: none;
+        color: inherit;
+
+        &:hover {
+          color: #DDD;
+        }
+
+        &:active {
+          color: #CCC;
+        }
+      }
+    }
+  }
+
 }
 
 h1#title {
@@ -285,6 +315,12 @@ div.schedule {
             font-size: 60px;
         }
     }
+}
+
+.login {
+  margin: 0 auto;
+  width: 200px;
+  text-align: center;
 }
 
 @import "mobile";

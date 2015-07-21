@@ -31,10 +31,11 @@ app.get('/', auth.is, function (req, res) {
 });
 
 app.get('/login', function (req, res) {
-  res.render('login');
+  res.render('login', req);
 });
 
 app.post('/login', auth.login);
+app.get('/logout', auth.logout);
 
 app.get('/api/:api', function (req, res, next) { next(); });
 app.param('api', api);
@@ -43,6 +44,7 @@ app.get('/rooster/:search', function (req, res, next) {
   next();
 });
 
+app.param('search', auth.is);
 app.param('search', lookup.get);
 app.param('search', schedule.get);
 

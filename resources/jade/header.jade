@@ -15,19 +15,24 @@ html
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-46880644-1', 'werkmanrooster.nl');ga('send', 'pageview');ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
   body
     div.bar
-
-    //- div.motd
-    //-   p
-    //-     | Hey jongens, het is weer tijd voor een nieuwe versie van Werkmanrooster. <br>
-    //-     | Hij is nog niet helemaal af maar het komt allemaal bij elkaar. <br>
-    //-     | De volgende dingen zijn niet meer te doen : <br>
-    //-     | * Inloggen <br>
-    //-     | * Cijfers bekijken <br>
-    //-     | * Instellingen veranderen <br>
-    //-     | * Useless button <br>
-    //-     | Als je wil, vul je een <a href="https://docs.google.com/forms/d/1MBf7ncF8BQc4f7B8EfXZyuvRdIhLYmhgGB2vcdb02gw/viewform?c=0&w=1">enquette</a> waarin je feedback kan achterlaten. <br>
-    //-     | Alvast bedankt! <br>
-    //-     | -B
+      if headers.user
+        ul.left
+          li Hey, #{headers.user.first_name}
+          li | 
+          li 
+            a(href="/rooster/#{headers.user.id}") Jouw Rooster
+          li
+            a(href=headers.user.url, target="_blank") Andere roostersite
+          
+        ul.right
+          li 
+            a(href="/logout") Logout
+        
+        
+      else
+        ul
+          li 
+            a(href="/login") Login
   
     h1#title(class=url == '/' ? 'big' : '') Werkmanrooster
       span V

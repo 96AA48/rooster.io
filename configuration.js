@@ -23,8 +23,8 @@ module.exports = function () {
          ],
          'school_id' : 934,
          'links' : {
-            'Login': ['#', '#96AA48'],
-            'Magister': ['http://werkman.magister.net', '#0C5489'],
+            'Login': ['http://roosters5.gepro-osi.nl/roosters/rooster.php?school=INSERTYOURSCHOOL_ID', '#CCCC99'],
+            'Magister': ['http://INSERTYOURMAGISTER.magister.net', '#0C5489'],
             'Mail': ['https://login.microsoftonline.com/', '#C41824']
          },
          'spider_timeout' : 1000

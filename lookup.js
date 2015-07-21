@@ -12,8 +12,7 @@ function get(req, res, next, search) {
   easter(search) ? search = easter(search).name : null; //Check if there are any eastereggs matching the search query.
   search = new RegExp(search, 'i'); //Make regular exeption for ignoring the case (Bram vs BRAM) should return the same.
 
-
-  index.find({$or : [{id : search}, {name : search}, {first_name : search}, {last_name : search}]}).toArray(function (err, database_entry) {
+  index.find({$or : [{id : search}, {name : search}, {first_name : search}, {last_name : search}, {username: search}]}).toArray(function (err, database_entry) {
     if (err) console.warn(err);
 
     if (database_entry.length == 1) {
@@ -35,7 +34,7 @@ function api(req, callback) {
   var index = database.collection('index');
   var query = RegExp(req.query.name, 'i');
 
-  index.find({$or : [{id : query}, {name : query}, {first_name : query}, {last_name : query}]}).toArray(function (err, database_entry) {
+  index.find({$or : [{id : query}, {name : query}, {first_name : query}, {last_name : query}, {username: query}]}).toArray(function (err, database_entry) {
     if (err) callback({'error': err});
     else {
       for (entry of database_entry) {entry.url = make_url(req, entry)}
@@ -65,7 +64,7 @@ function make_url(req, database_entry) {
       url += '&klassen=' + database_entry.name;
     break;
   }
-  
+
   if (req.query.tab) url += '&tabblad=' + req.query.tab
 
   return url;

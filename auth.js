@@ -4,6 +4,7 @@ var https = require('socks5-https-client');
 
 var crypt = require('./crypt');
 var config = require('./configuration');
+var lookup = require('./lookup');
 
 function get_login(username, password, callback) {
 	var login = qs.stringify({
@@ -59,21 +60,23 @@ function logout(req, res) {
 
 function is(req, res, next) {
 	var cookies = qs.parse(req.headers.cookie.replace(/\s/g, ''), ';', '=');
-	console.log(cookies);
 	if (!cookies.username || !cookies.password) {next(); return;}
 
 	var username = crypt.decrypt(cookies.username),
 	password = crypt.decrypt(cookies.password);
-	console.log(username, password);
 
 	get_login(username, password, function (legit) {
 		if (legit) {
-			console.log('Username and password were legit');
-			req.headers.username = username;
+			req.query.name = username;
+			lookup.api(req, function (database_entry) {
+				req.headers.user = database_entry.data[0];
+				next();
+			});
 			// req.headers.password = password;
 		}
-
-		next();
+		else {
+			next();
+		}
 	});
 }
 
