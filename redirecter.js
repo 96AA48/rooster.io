@@ -18,6 +18,9 @@ module.exports = function (req, res) {
       if (query.search == 'hoewerkt') res.redirect('http://hoewerkt.werkmanrooster.nl');
       res.redirect('/' + referer + '/' + query.search);
     }
+    else {
+      res.redirect('/');
+    }
   });
 
 }
