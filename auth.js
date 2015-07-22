@@ -59,7 +59,7 @@ function logout(req, res) {
 }
 
 function is(req, res, next) {
-	var cookies = qs.parse(req.headers.cookie.replace(/\s/g, ''), ';', '=');
+	var cookies = qs.parse((req.headers.cookie || '').replace(/\s/g, ''), ';', '=');
 	if (!cookies.username || !cookies.password) {next(); return;}
 
 	var username = crypt.decrypt(cookies.username),
