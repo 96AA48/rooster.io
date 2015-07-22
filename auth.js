@@ -59,7 +59,6 @@ function logout(req, res) {
 }
 
 function is(req, res, next) {
-	console.log('Checked auth stats');
 	var cookies = qs.parse((req.headers.cookie || '').replace(/\s/g, ''), ';', '=');
 	if (!cookies.username || !cookies.password) {next(); return;}
 

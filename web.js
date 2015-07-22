@@ -54,7 +54,6 @@ app.param('search', function (req, res) {
 app.param('list', lookup.list);
 
 app.get('/klassenlijst/:list',[auth.is, function (req, res) {
-  console.log('did the list');
   req.links = config().links;
   req.times = config().hour_times;
   res.render('multiple_found', req);

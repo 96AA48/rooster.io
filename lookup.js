@@ -47,8 +47,6 @@ function list(req, res, next, list) {
   var index = database.collection('index');
   var query = RegExp(list, 'i');
 
-  console.log(list);
-
   index.find({group: list}).toArray(function (err, database_entry) {
     if (err) {req.error = err; next();}
     else {
