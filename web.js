@@ -9,6 +9,7 @@ var config = require('./configuration');
 var lookup = require('./lookup');
 var schedule = require('./schedule');
 var auth = require('./auth');
+var redirecter = require('./redirecter');
 
 var app = express();
 
@@ -29,6 +30,8 @@ app.use('/other', express.static(__dirname + '/resources/other'));
 app.get('/', auth.is, function (req, res) {
   res.render('homepage', req);
 });
+
+app.post('/', redirecter);
 
 app.get('/login', function (req, res) {
   res.render('login', req);
