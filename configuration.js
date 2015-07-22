@@ -22,7 +22,7 @@ module.exports = function () {
             '15:40 - 16:40'
          ],
          'school_id' : 934,
-         'links' : {
+         'linkbar' : {
             'Login': ['http://roosters5.gepro-osi.nl/roosters/rooster.php?school=INSERTYOURSCHOOL_ID', '#CCCC99'],
             'Magister': ['http://INSERTYOURMAGISTER.magister.net', '#0C5489'],
             'Mail': ['https://login.microsoftonline.com/', '#C41824']

@@ -17,13 +17,16 @@ app.set('view engine', 'jade');
 config().env == 'dev' ? app.disable('view cache') : null; //If the environment is set on 'dev' then view cache should be disabled.
 app.set('views', __dirname + '/resources/jade');
 
+//Give the app some configuration information
+app.local.linkbar = config().linkbar;
+app.local.hour_times = config().hour_times;
+
 //Set up all static directories for getting resources.
 app.use('/css', less(__dirname + '/resources/less'));
 app.use('/js', express.static(__dirname + '/resources/js'));
 app.use('/other', express.static(__dirname + '/resources/other'));
 
 app.get('/', auth.is, function (req, res) {
-  req.links = config().links;
   res.render('homepage', req);
 });
 
@@ -40,16 +43,12 @@ app.param('api', api);
 app.param('search', lookup.get);
 
 app.get('/rooster/:search', [auth.is, schedule.get, function (req, res) {
-  req.links = config().links;
-  req.times = config().hour_times;
   res.render('schedule', req);
 }]);
 
 app.param('list', lookup.list);
 
 app.get('/klassenlijst/:list',[auth.is, function (req, res) {
-  req.links = config().links;
-  req.times = config().hour_times;
   res.render('multiple_found', req);
 }]);
 
