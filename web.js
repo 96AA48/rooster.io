@@ -37,19 +37,13 @@ app.get('/logout', auth.logout);
 app.get('/api/:api', function (req, res, next) { next(); });
 app.param('api', api);
 
-app.get('/rooster/:search', function (req, res, next) {
-  next();
-});
-
-app.param('search', auth.is);
 app.param('search', lookup.get);
-app.param('search', schedule.get);
 
-app.param('search', function (req, res) {
+app.get('/rooster/:search', [auth.is, schedule.get, function (req, res) {
   req.links = config().links;
   req.times = config().hour_times;
   res.render('schedule', req);
-});
+}]);
 
 app.param('list', lookup.list);
 
