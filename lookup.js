@@ -21,7 +21,9 @@ function get(req, res, next, search) {
       next();
     }
     else if (database_entry.length == 0) {
-      res.render('not_found', req);
+      require('./auth').is(req, res, function () {
+        res.render('not_found', req);
+      });
     }
     else {
       req.match = database_entry;
@@ -52,7 +54,9 @@ function list(req, res, next, list) {
   index.find({group: list}).toArray(function (err, database_entry) {
     if (err) {req.error = err; next();}
     else {
-      if (database_entry.length < 1) res.render('not_found', req);
+      if (database_entry.length < 1) require('./auth').is(req, res, function () {
+        res.render('not_found', req);
+      });
       req.match = database_entry;
       next();
     }

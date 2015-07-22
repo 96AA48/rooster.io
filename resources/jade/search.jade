@@ -1,5 +1,5 @@
 //- search.jade
 
 form(method="post", action="/")
-  input.search(type="text", name="search", placeholder="Je naam, id, klassennaam, docentencode, lokaalcode", value=path.split('/')[1] == 'klassenlijst' && match ? 'Leerlingen van ' + match[0].group : match ? ((match.first_name || match.name || 'Meerdere mensen hun rooster') + '\'s rooster') : '')
+  input.search(type="text", name="search", placeholder="Je naam, id, klassennaam, docentencode, lokaalcode", value=path.split('/')[1] == 'klassenlijst' && match && match.length > 1 ? 'Leerlingen van ' + match[0].group : match ? ((match.first_name || match.name || 'Meerdere mensen hun rooster') + '\'s rooster') : '')
   input.search(type="submit", value="Zoeken")

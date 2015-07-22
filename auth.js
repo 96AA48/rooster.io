@@ -72,7 +72,6 @@ function is(req, res, next) {
 				req.headers.user = database_entry.data[0];
 				next();
 			});
-			// req.headers.password = password;
 		}
 		else {
 			next();
