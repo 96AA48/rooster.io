@@ -24,7 +24,7 @@ function get(req, res, next, search) {
       res.render('not_found');
     }
     else {
-      req.found = database_entry;
+      req.match = database_entry;
       res.render('multiple_found', req);
     }
   });
@@ -34,11 +34,26 @@ function api(req, callback) {
   var index = database.collection('index');
   var query = RegExp(req.query.name, 'i');
 
-  index.find({$or : [{id : query}, {name : query}, {first_name : query}, {last_name : query}, {username: query}]}).toArray(function (err, database_entry) {
+  index.find({$or : [{id : query}, {name : query}, {first_name : query}, {last_name : query}, {username: query}, {group: query}]}).toArray(function (err, database_entry) {
     if (err) callback({'error': err});
     else {
       for (entry of database_entry) {entry.url = make_url(req, entry)}
       callback({'data': database_entry});
+    }
+  });
+}
+
+function list(req, res, next, list) {
+  var index = database.collection('index');
+  var query = RegExp(list, 'i');
+
+  console.log(list);
+
+  index.find({group: list}).toArray(function (err, database_entry) {
+    if (err) {req.error = err; next();}
+    else {
+      req.match = database_entry;
+      next();
     }
   });
 }
@@ -82,7 +97,7 @@ function easter(search) {
   return null;
 }
 
-module.exports = {'get': get, 'api': api};
+module.exports = {'get': get, 'api': api, 'list': list};
 
 //Testing function, if test is passed in the command line will execute a test.
 if (process.argv[2] == "test") {

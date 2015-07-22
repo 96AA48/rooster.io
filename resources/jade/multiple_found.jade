@@ -4,7 +4,7 @@ include search
 
 .container
   ul.found
-    for entry in found
+    for entry in match
       li
         a(href='/rooster/' + entry.name)=entry.name
   

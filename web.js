@@ -22,9 +22,6 @@ app.use('/css', less(__dirname + '/resources/less'));
 app.use('/js', express.static(__dirname + '/resources/js'));
 app.use('/other', express.static(__dirname + '/resources/other'));
 
-//Other things that need to be setup
-// app.use(body_parser);
-
 app.get('/', auth.is, function (req, res) {
   req.links = config().links;
   res.render('homepage', req);
@@ -54,6 +51,15 @@ app.param('search', function (req, res) {
   res.render('schedule', req);
 });
 
+app.param('list', lookup.list);
+
+app.get('/klassenlijst/:list',[auth.is, function (req, res) {
+  console.log('did the list');
+  req.links = config().links;
+  req.times = config().hour_times;
+  res.render('multiple_found', req);
+}]);
+
 app.listen(config().web_port);
 plugins();
 
@@ -66,5 +72,4 @@ function plugins() {
       var app = require(app)(config().web_port + (1 + plugin.indexOf(plugins_directory)));
     }
   }
-
 }
