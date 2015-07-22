@@ -8,6 +8,9 @@ if !easter || easter.type != "RIP"
   #wrapper
     .schedule
       ul
+        li
+          span A
+          a(href=match.url, target="_blank") ndere roostersite
         each type in match.json.types
           li
             span=type.letter
