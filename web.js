@@ -18,8 +18,8 @@ config().env == 'dev' ? app.disable('view cache') : null; //If the environment i
 app.set('views', __dirname + '/resources/jade');
 
 //Give the app some configuration information
-app.local.linkbar = config().linkbar;
-app.local.hour_times = config().hour_times;
+app.locals.linkbar = config().linkbar;
+app.locals.hour_times = config().hour_times;
 
 //Set up all static directories for getting resources.
 app.use('/css', less(__dirname + '/resources/less'));

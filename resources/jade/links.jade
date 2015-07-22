@@ -1,6 +1,6 @@
-//links.jade
+//- links.jade
 div.links
-    each properties, name in links
+    each properties, name in app.locals.linkbar
         div
             a(href=properties[0], style='background-color:' + properties[1])=name
             

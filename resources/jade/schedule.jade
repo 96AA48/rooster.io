@@ -30,7 +30,7 @@ if !easter || easter.type != "RIP"
                    span.course(class='sub_' + hour.teacher.length)=  hour.course[hour.teacher.indexOf(subhour)]
                 
                 if match.json.indexOf(day) == 0
-                    span.time= times[match.json[0].indexOf(hour)]
+                    span.time= app.locals.hour_times[match.json[0].indexOf(hour)]
                 
             else 
               .hour.changed
