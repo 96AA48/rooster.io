@@ -79,10 +79,12 @@ function rip(data) {
 
               if (!isNaN(student)) {
                 var name = cheerio(list_students[student]).text().split(' - ')[1];
+                var group = cheerio(list_students[student]).text().split(' - ')[0];
                 var id = cheerio(list_students[student]).val();
 
                 var database_entry = {
                   'id' : id,
+                  'group' : group,
                   'username' : id + name.split(' ')[0].toLowerCase(),
                   'name' : name,
                   'first_name' : name.split(' ')[0],
