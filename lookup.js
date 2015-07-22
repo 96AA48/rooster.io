@@ -25,7 +25,9 @@ function get(req, res, next, search) {
     }
     else {
       req.match = database_entry;
-      res.render('multiple_found', req);
+      require('./auth').is(req, res, function () {
+        res.render('list', req);
+      });
     }
   });
 }

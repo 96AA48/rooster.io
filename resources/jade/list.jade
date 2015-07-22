@@ -1,6 +1,11 @@
 //- list.jade
 include header
+include search
 
-div=JSON.stringify(match, null, 2)
-
+.container
+  ul.found
+    for entry in match
+      li
+        a(href='/rooster/' + entry.name)=entry.name
+  
 include linkbar

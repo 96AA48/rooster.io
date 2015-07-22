@@ -49,7 +49,7 @@ app.get('/rooster/:search', [auth.is, schedule.get, function (req, res) {
 app.param('list', lookup.list);
 
 app.get('/klassenlijst/:list',[auth.is, function (req, res) {
-  res.render('multiple_found', req);
+  res.render('list', req);
 }]);
 
 app.listen(config().web_port);
