@@ -1,34 +1,40 @@
 //lookup.js
-var config = require('./configuration');
 var fs = require('fs');
+var database = require('mongoskin').db('mongodb://' + config().database); //Initialize the database connection.
 
-var database = require('mongoskin').db('mongodb://' + config().database);
+//Getting local variables stored in the configuration file.
+var config = require('./configuration');
 var school_id = config().school_id;
 
 //Function for looking through the database and finding entries related to the searchterm.
 function get(req, res, next, search) {
-  var index = database.collection('index');
-  easter(search) ? req.easter = easter(search) : null;
+  var index = database.collection('index'); //Initialize the database collection.
+  easter(search) ? req.easter = easter(search) : null; //Bind the easter object to the request object.
   easter(search) ? search = easter(search).name : null; //Check if there are any eastereggs matching the search query.
   search = new RegExp(search, 'i'); //Make regular exeption for ignoring the case (Bram vs BRAM) should return the same.
 
   index.find({$or : [{id : search}, {name : search}, {first_name : search}, {last_name : search}, {username: search}]}).toArray(function (err, database_entry) {
     if (err) console.warn(err);
 
-    if (database_entry.length == 1) {
+    if (req.easter.type == 'RIP') { //There is an easteregg type that is a grave stone for old students and teachers, here's the logical exception for it.
+        require('./auth').is(req, res, function () { //Ask the authentication system if the user is authenticated (will happen several times in the module).
+          res.render('schedule', req);
+        });
+    }
+    else if (database_entry.length == 1) { //If there was a match in the system with the supplied
       database_entry[0].url = make_url(req, database_entry[0]);
       req.match = database_entry[0];
       next();
     }
-    else if (database_entry.length == 0) {
+    else if (database_entry.length == 0) { //If there were no matches found.
       require('./auth').is(req, res, function () {
-        res.render('not_found', req);
+        res.render('not_found', req); //Render the not_found page.
       });
     }
-    else {
+    else { //If there are multiple matches found in the system
       req.match = database_entry;
       require('./auth').is(req, res, function () {
-        res.render('list', req);
+        res.render('list', req); //Render the list view
       });
     }
   });
@@ -93,6 +99,7 @@ function make_url(req, database_entry) {
 //Function for checking the given search query for eatereggs.
 //TODO: add a way to supply a template file for eastereggs.
 function easter(search) {
+  console.log('search', search);
   var list = JSON.parse(fs.readFileSync(__dirname + '/eastereggs.json'));
 
   for (entry of list) {
