@@ -1,10 +1,12 @@
 //lookup.js
-var fs = require('fs');
-var database = require('mongoskin').db('mongodb://' + config().database); //Initialize the database connection.
 
-//Getting local variables stored in the configuration file.
+//Getting local variables via the configuration file.
 var config = require('./configuration');
 var school_id = config().school_id;
+
+//Getting first and third party modules
+var fs = require('fs');
+var database = require('mongoskin').db('mongodb://' + config().database); //Initialize the database connection.
 
 //Function for looking through the database and finding entries related to the searchterm.
 function get(req, res, next, search) {
