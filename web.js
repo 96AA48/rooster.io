@@ -10,6 +10,7 @@ var lookup = require('./lookup');
 var schedule = require('./schedule');
 var auth = require('./auth');
 var redirecter = require('./redirecter');
+var time = require('./time');
 
 var app = express();
 
@@ -21,6 +22,7 @@ app.set('views', __dirname + '/resources/jade');
 //Give the app some configuration information
 app.locals.linkbar = config().linkbar;
 app.locals.hour_times = config().hour_times;
+app.locals.time = time;
 
 //Set up all static directories for getting resources.
 app.use('/css', less(__dirname + '/resources/less'));
