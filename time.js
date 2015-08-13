@@ -21,7 +21,8 @@ function parse(timestr) {
 
 //Function for parsing and checking if the currrent time is within the parsed string.
 function within_timespan(timespan) {
-
+  if (get() > parse(timespan)[0] && get() < parse(timespan)[1]) return true;
+  else return false;
 }
 
 function during_school() {
