@@ -21,8 +21,8 @@ if !easter || easter.type != "RIP"
             span= days[match.json.indexOf(day)]
           each hour in day
             if hour.teacher != 'vrij'
-              .hour(class=hour.changed == 'true' ? 'changed' : '')
-                each subhour in hour.teacher
+              .hour(class=(hour.changed == 'true' ? 'changed' : '') + (app.locals.time.within_timespan(app.locals.hour_times[match.json[0].indexOf(hour)) ? ' current' : ''))
+                each subhour in hour.teachaer
                    span.teacher(class='sub_' + hour.teacher.length)
                       a(href=hour.teacher[hour.teacher.indexOf(subhour)])= hour.teacher[hour.teacher.indexOf(subhour)]
                    span.chamber(class='sub_' + hour.teacher.length)

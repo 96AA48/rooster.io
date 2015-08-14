@@ -7,7 +7,7 @@ function get() {
  return time.getHours() + (time.getMinutes() / 60);
 }
 
-//Function for convert hh:mm to fractured time
+//Function for convert hh:mm to fractured time (hh.hh)
 function parse(timestr) {
   var parsed = timestr.match(/\d{1,2}:\d+/g);
   var array = [];
