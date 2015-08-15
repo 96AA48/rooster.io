@@ -10,7 +10,7 @@ function parse(req, res, next, api) {
     else {
       lookup.api(req, function (lookup) {
         if (lookup.error) error(lookup.error, res);
-        else send_response(lookup.data, res);
+        else sendResponse(lookup.data, res);
       });
     }
   }
@@ -22,8 +22,8 @@ function parse(req, res, next, api) {
         else {
           if (lookup.data.length > 1 || lookup.data.length == 0) error('The request that you did had multiple responses or none, make sure that your query returns one.', res, lookup.data)
           else {
-            schedule.api(lookup, function (schedule_data) {
-              send_response(schedule_data, res, true);
+            schedule.api(lookup, function (scheduleData) {
+              sendResponse(scheduleData, res, true);
             });
           }
         }
@@ -39,9 +39,9 @@ function error(str, res, data) {
   return;
 }
 
-function send_response(data, res, disable_pretty) {
+function sendResponse(data, res, disablePretty) {
   res.set('Content-Type', 'application/json');
-  var response = JSON.stringify({'data': data}, null, disable_pretty ? 0 : 2);
+  var response = JSON.stringify({'data': data}, null, disablePretty ? 0 : 2);
   res.status(200).end(response);
   return;
 }

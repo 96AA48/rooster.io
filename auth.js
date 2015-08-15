@@ -6,7 +6,7 @@ var crypt = require('./crypt');
 var config = require('./configuration');
 var lookup = require('./lookup');
 
-function get_login(username, password, callback) {
+function getLogin(username, password, callback) {
 	var login = qs.stringify({
 		GebruikersNaam : username,
 		Wachtwoord : password
@@ -21,8 +21,8 @@ function get_login(username, password, callback) {
 			'Content-Type' : 'application/x-www-form-urlencoded',
 			'Content-Length' : login.length
 		},
-		socksPort: config().tor_port,
-	  socksHost: config().tor_host
+		socksPort: config().torPort,
+	  socksHost: config().torHost
 	}, function (res) {
 		if (res.statusCode == 201 || res.statusCode == 200) callback(true);
 		else callback(false);
@@ -37,11 +37,11 @@ function login(req, res, next) {
 	});
 
 	req.on('end', function () {
-		var login_information = qs.parse(_data)
+		var loginInformation = qs.parse(_data)
 
-		get_login(login_information.username, login_information.password, function (legit) {
-			var username = crypt.encrypt(login_information.username);
-			var password = crypt.encrypt(login_information.password);
+		getLogin(loginInformation.username, loginInformation.password, function (legit) {
+			var username = crypt.encrypt(loginInformation.username);
+			var password = crypt.encrypt(loginInformation.password);
 			if (legit) {
 		    res.cookie('username', username);
 		    res.cookie('password', password);
@@ -65,11 +65,11 @@ function is(req, res, next) {
 	var username = crypt.decrypt(cookies.username),
 	password = crypt.decrypt(cookies.password);
 
-	get_login(username, password, function (legit) {
+	getLogin(username, password, function (legit) {
 		if (legit) {
 			req.query.name = username;
-			lookup.api(req, function (database_entry) {
-				req.headers.user = database_entry.data[0];
+			lookup.api(req, function (databaseEntry) {
+				req.headers.user = databaseEntry.data[0];
 				next();
 			});
 		}

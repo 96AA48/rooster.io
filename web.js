@@ -21,7 +21,7 @@ app.set('views', __dirname + '/resources/jade');
 
 //Give the app some configuration information
 app.locals.linkbar = config().linkbar;
-app.locals.hour_times = config().hour_times;
+app.locals.times = config().times;
 app.locals.time = time;
 
 //Set up all static directories for getting resources.
@@ -57,16 +57,16 @@ app.get('/klassenlijst/:list',[auth.is, function (req, res) {
   res.render('list', req);
 }]);
 
-app.listen(config().web_port);
+app.listen(config().webPort);
 plugins();
 
 function plugins() {
-  var plugins_directory = fs.readdirSync(__dirname + '/plugins');
+  var pluginsDirectory = fs.readdirSync(__dirname + '/plugins');
 
-  for (plugin of plugins_directory) {
+  for (plugin of pluginsDirectory) {
     var app = __dirname + '/plugins/' + plugin + '/app.js';
     if (fs.existsSync(app)) {
-      var app = require(app)(config().web_port + (1 + plugin.indexOf(plugins_directory)));
+      var app = require(app)(config().webPort + (1 + plugin.indexOf(pluginsDirectory)));
     }
   }
 }

@@ -20,7 +20,7 @@ if !easter || easter.type != "RIP"
           .hour.title
             span= days[match.json.indexOf(day)]
           each hour in day
-            - var current = app.locals.time.within_timespan(app.locals.hour_times[day.indexOf(hour)]);
+            - var current = app.locals.time.withinTimespan(app.locals.times[day.indexOf(hour)]);
             if hour.teacher != 'vrij'
               .hour(class=((hour.changed == 'true' ? 'changed' : '') + (current ? ' current' : '')))
                 each subhour in hour.teacher
@@ -31,17 +31,17 @@ if !easter || easter.type != "RIP"
                    span.course(class='sub_' + hour.teacher.length)=  hour.course[hour.teacher.indexOf(subhour)]
                 
                 if match.json.indexOf(day) == 0
-                    span.time= app.locals.hour_times[match.json[0].indexOf(hour)]
+                    span.time= app.locals.times[match.json[0].indexOf(hour)]
                 
             else 
               .hour.changed(class= current ? ' current' : '')
                 span.free Vrij
                 if match.json.indexOf(day) == 0
-                    span.time= app.locals.hour_times[match.json[0].indexOf(hour)]
+                    span.time= app.locals.times[match.json[0].indexOf(hour)]
 else 
   .schedule.rip
     h1 R.I.P
-    p="Hier ligt " + (easter.real_name || easter.name)
+    p="Hier ligt " + (easter.realName || easter.name)
     sup="aka " + easter.easter
     p=easter.text
     p Voor altijd in ons hart

@@ -8,11 +8,11 @@ module.exports = function () {
       var settings = {
          'env' : 'dev',
          'database' : 'example.com/database',
-         'web_port' : 1024,
-         'tor_host' : 'example.com',
-         'tor_port' : 9050,
-         'amount_of_hours' : 7,
-         'hour_times' : [
+         'webPort' : 1024,
+         'torHost' : 'example.com',
+         'torPort' : 9050,
+         'amountOfHours' : 7,
+         'times' : [
             '8:45 - 9:45',
             '9:45 - 10:45',
             '11:10 - 12:10',
@@ -21,13 +21,13 @@ module.exports = function () {
             '14:40 - 15:40',
             '15:40 - 16:40'
          ],
-         'school_id' : 934,
+         'schoolID' : 934,
          'linkbar' : {
-            'Roostersite': ['http://roosters5.gepro-osi.nl/roosters/rooster.php?school=INSERTYOURSCHOOL_ID', '#CCCC99'],
+            'Roostersite': ['http://roosters5.gepro-osi.nl/roosters/rooster.php?school=INSERTYOURSCHOOLID', '#CCCC99'],
             'Magister': ['http://INSERTYOURMAGISTER.magister.net', '#0C5489'],
             'Mail': ['https://login.microsoftonline.com/', '#C41824']
          },
-         'spider_timeout' : 1000
+         'spiderTimeout' : 1000
       }
       //Write it to file as pretty printed JSON.
       fs.writeFileSync(__dirname + '/settings.json', JSON.stringify(settings, null, 2));

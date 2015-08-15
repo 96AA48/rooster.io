@@ -11,7 +11,7 @@ var scheduletypes = [
   'Leerlingrooster',
   'Lokaalrooster'
 ];
-var school_id;
+var schoolID;
 var database;
 
 //Function for getting pages with http requests.
@@ -22,9 +22,9 @@ function get() {
 
     (function (scheduletype) {
 
-      var options = url.parse('http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + school_id + '&type=' + scheduletype);
-      options.socksPort = config().tor_port;
-      options.socksHost = config().tor_host;
+      var options = url.parse('http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + schoolID + '&type=' + scheduletype);
+      options.socksPort = config().torPort;
+      options.socksHost = config().torHost;
 
       http.get(options, function (res) {
 
@@ -61,9 +61,9 @@ function rip(data) {
     for(studentcategory of list) {
 
       (function (studentcategory) {
-        var options = url.parse('http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + school_id + '&type=' + data.type + '&afdeling=' + studentcategory);
-        options.socksPort = config().tor_port;
-        options.socksHost = config().tor_host;
+        var options = url.parse('http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + schoolID + '&type=' + data.type + '&afdeling=' + studentcategory);
+        options.socksPort = config().torPort;
+        options.socksHost = config().torHost;
 
         http.get(options, function (res) {
           var _download = '';
@@ -73,16 +73,16 @@ function rip(data) {
           });
 
           res.on('end', function () {
-            var list_students = cheerio('select', _download).children();
+            var listOfStudents = cheerio('select', _download).children();
 
-            for (student in list_students) {
+            for (student in listOfStudents) {
 
               if (!isNaN(student)) {
-                var name = cheerio(list_students[student]).text().split(' - ')[1];
-                var group = cheerio(list_students[student]).text().split(' - ')[0];
-                var id = cheerio(list_students[student]).val();
+                var name = cheerio(listOfStudents[student]).text().split(' - ')[1];
+                var group = cheerio(listOfStudents[student]).text().split(' - ')[0];
+                var id = cheerio(listOfStudents[student]).val();
 
-                var database_entry = {
+                var databaseEntry = {
                   'id' : id,
                   'group' : group,
                   'username' : id + name.split(' ')[0].toLowerCase(),
@@ -93,12 +93,12 @@ function rip(data) {
                   'type' : data.type.replace(/rooster/g, '').toLowerCase()
                 }
 
-                collection.insert(database_entry, show_output);
+                collection.insert(databaseEntry, showOutput);
 
-                if (studentcategory == list[list.length - 1] && student == list_students.length - 1) {
+                if (studentcategory == list[list.length - 1] && student == listOfStudents.length - 1) {
                   setTimeout(function () {
                     database.close();
-                  }, config().spider_timeout);
+                  }, config().spiderTimeout);
                 }
 
               }
@@ -110,19 +110,19 @@ function rip(data) {
   }
   else {
     for (entry of list) {
-      var database_entry = {
+      var databaseEntry = {
         'name' : entry,
         'type' : data.type.replace(/rooster/g, '').toLowerCase()
       }
 
-      collection.insert(database_entry, show_output);
+      collection.insert(databaseEntry, showOutput);
     }
   }
 }
 
 //Function being called to access functionality from this module.
 function crawl() {
-  school_id = config().school_id;
+  schoolID = config().schoolID;
   mongodb.connect('mongodb://' + config().database, function (error, db) {
     if (error) console.warn(error);
     database = db;
@@ -133,7 +133,7 @@ function crawl() {
 
 
 //Redundant function for draining native-mongodb-driver output
-function show_output(error, message) {
+function showOutput(error, message) {
   if (process.argv[3] == '-v') {
     // if (error) process.stdout.write(error.toString());
     if (message != null) console.log(message);

@@ -20,14 +20,14 @@ function parse(timestr) {
 }
 
 //Function for parsing and checking if the currrent time is within the parsed string.
-function within_timespan(timespan) {
+function withinTimespan(timespan) {
   if (get() > parse(timespan)[0] && get() < parse(timespan)[1]) return true;
   else return false;
 }
 
-function during_school() {
-  var start = parse(config().hour_times[0])[0];
-  var end = parse(config().hour_times[config().hour_times.length - 1])[1];
+function duringSchool() {
+  var start = parse(config().times[0])[0];
+  var end = parse(config().times[config().times.length - 1])[1];
 
   if (get() > start && get() < end) return true;
   else return false;
@@ -35,6 +35,6 @@ function during_school() {
 
 module.exports = {
   'get': get,
-  'within_timespan': within_timespan,
-  'during_school': during_school
+  'withinTimespan': withinTimespan,
+  'duringSchool': duringSchool
 }
