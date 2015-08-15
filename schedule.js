@@ -13,7 +13,7 @@ function get(req, res, next) {
 }
 
 function api(lookup, callback) {
-  get_schedule(lookup.data[0].url, callback)
+  get_schedule(lookup.data[0].url, callback);
 }
 
 //Function for getting the page via http.
@@ -41,11 +41,11 @@ function schedule_types(page) {
    var types = [];
 
    for (element of extract) {
-         element != '' ? types.push({
-           'letter': element.substr(0, 1),
-           'value' : element.match(/.*rooster|t\/m|\d\d\s\w{3}/g).join(' ').slice(1),
-           'tab': tab++
-         }) : null;
+      element != '' ? types.push({
+        'letter': element.substr(0, 1),
+        'value' : element.match(/.*rooster|t\/m|\d\d\s\w{3}/gi).join(' ').slice(1).toLowerCase(),
+        'tab': tab++
+      }) : null;
    }
 
    return types;
