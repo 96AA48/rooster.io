@@ -17,7 +17,7 @@ function get(req, res, next, search) {
   index.find({$or : [{id : search}, {name : search}, {first_name : search}, {last_name : search}, {username: search}]}).toArray(function (err, database_entry) {
     if (err) console.warn(err);
 
-    if (req.easter.type == 'RIP') {
+    if ((req.easter || {}).type == 'RIP') {
         require('./auth').is(req, res, function () {
           res.render('schedule', req);
         });
@@ -97,7 +97,6 @@ function make_url(req, database_entry) {
 }
 
 function easter(search) {
-  console.log('search', search);
   var list = JSON.parse(fs.readFileSync(__dirname + '/eastereggs.json'));
 
   for (entry of list) {
