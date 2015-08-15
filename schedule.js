@@ -43,7 +43,7 @@ function schedule_types(page) {
    for (element of extract) {
          element != '' ? types.push({
            'letter': element.substr(0, 1),
-           'value' : element.indexOf(extract), //element.match(/.*rooster|t\/m|\d\d\s\w{3}/g).join(' ').slice(1),
+           'value' : element.match(/.*rooster|t\/m|\d\d\s\w{3}/g).join(' ').slice(1),
            'tab': tab++
          }) : null;
    }
