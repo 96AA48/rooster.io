@@ -23,13 +23,14 @@ module.exports = function () {
          ],
          'school_id' : 934,
          'linkbar' : {
-            'Login': ['http://roosters5.gepro-osi.nl/roosters/rooster.php?school=INSERTYOURSCHOOL_ID', '#CCCC99'],
+            'Roostersite': ['http://roosters5.gepro-osi.nl/roosters/rooster.php?school=INSERTYOURSCHOOL_ID', '#CCCC99'],
             'Magister': ['http://INSERTYOURMAGISTER.magister.net', '#0C5489'],
             'Mail': ['https://login.microsoftonline.com/', '#C41824']
          },
          'spider_timeout' : 1000
       }
-      fs.writeFileSync(__dirname + '/settings.json', JSON.stringify(settings, null, 2)); //Write it to file as prettyprinted json.
+      //Write it to file as pretty printed JSON.
+      fs.writeFileSync(__dirname + '/settings.json', JSON.stringify(settings, null, 2));
 
       return settings;
    }
