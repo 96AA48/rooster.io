@@ -17,18 +17,18 @@ function get(req, res, next, search) {
   if (!config().localDatabase) {
     index.find({$or : [{id : search}, {name : search}, {first_name : search}, {last_name : search}, {username: search}]}).toArray(function (err, databaseEntry) {
       if (err) console.warn(err);
-      handle(req, next, databaseEntry);
+      handle(req, res, next, databaseEntry);
     });
   }
   else {
     index.find({$or : [{id : search}, {name : search}, {first_name : search}, {last_name : search}, {username: search}]}, function (err, databaseEntry) {
       if (err) console.warn(err);
-      handle(req, next, databaseEntry);
+      handle(req, res, next, databaseEntry);
     });
   }
 }
 
-function handle(req, next, databaseEntry) {
+function handle(req, res, next, databaseEntry) {
   if ((req.easter || {}).type == 'RIP') {
       require('./auth').is(req, res, function () {
         res.render('schedule', req);

@@ -3,7 +3,7 @@ var cheerio = require('cheerio');
 var iconv = require('iconv-lite');
 var config = require('./configuration');
 var url = require('url');
-var database = require('./')();
+var database = require('./database')();
 
 var scheduletypes = [
   'Klasrooster',
