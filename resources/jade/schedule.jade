@@ -20,8 +20,9 @@ if !easter || easter.type != "RIP"
           .hour.title
             span= days[match.json.indexOf(day)]
           each hour in day
+            - var current = app.locals.time.within_timespan(app.locals.hour_times[day.indexOf(hour)]);
             if hour.teacher != 'vrij'
-              .hour(class=(hour.changed == 'true' ? 'changed' : ''))
+              .hour(class=((hour.changed == 'true' ? 'changed' : '') + (current ? ' current' : '')))
                 each subhour in hour.teacher
                    span.teacher(class='sub_' + hour.teacher.length)
                       a(href=hour.teacher[hour.teacher.indexOf(subhour)])= hour.teacher[hour.teacher.indexOf(subhour)]
@@ -33,8 +34,10 @@ if !easter || easter.type != "RIP"
                     span.time= app.locals.hour_times[match.json[0].indexOf(hour)]
                 
             else 
-              .hour.changed
+              .hour.changed(class= current ? ' current' : '')
                 span.free Vrij
+                if match.json.indexOf(day) == 0
+                    span.time= app.locals.hour_times[match.json[0].indexOf(hour)]
 else 
   .schedule.rip
     h1 R.I.P

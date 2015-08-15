@@ -38,4 +38,3 @@ module.exports = {
   'within_timespan': within_timespan,
   'during_school': during_school
 }
-
