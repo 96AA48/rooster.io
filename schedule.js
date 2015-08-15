@@ -1,21 +1,28 @@
 //schedule.js
-var http = require('socks5-http-client');
-var cheerio = require('cheerio');
-var config = require('./configuration');
+
+//Import first-party modules.
 var url = require('url');
 
-//Wrapper function that is being called by express.
+//Import third-party modules.
+var http = require('socks5-http-client');
+var cheerio = require('cheerio');
+
+//Import self-written modules.
+var config = require('./configuration');
+
+/**
+ * Function being called by Express when the user requests a schedule.
+ * @param {Object} req - Request object supplied by Express.
+ * @param {Object} res - Response object supplied by Express.
+ * @param {Function} next - Next function supplied by Express.
+ */
 function get(req, res, next) {
   getSchedule(req.match.url, function (json) {
     req.match.json = json;
     next();
   });
 }
-
-function api(lookup, callback) {
-  getSchedule(lookup.data[0].url, callback);
-}
-
+//FIXME: GO ON WITH THE REST OF THE DOCUMENTATION.
 //Function for getting the page via http.
 function getSchedule(getUrl, callback) {
   var options = url.parse(getUrl);
@@ -89,6 +96,16 @@ function toJSON(page) {
   scheduleData.types = types;
 
   return scheduleData;
+}
+
+/**
+ * Function for doing a lookup in the database containing all records
+ * of students, teachers and classrooms.
+ * @param {Object} lookup - Object with all of the information from the request.
+ * @param {Function} callback - Callback function for the API module.
+ */
+function api(lookup, callback) {
+  getSchedule(lookup.data[0].url, callback);
 }
 
 //Exporting the schedule function.

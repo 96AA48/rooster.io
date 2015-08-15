@@ -1,13 +1,23 @@
 //lookup.js
 
-//Getting local variables via the configuration file.
-var config = require('./configuration');
-var schoolID = config().schoolID;
-
-//Getting first and third party modules
+//Importing first-party modules.
 var fs = require('fs');
+
+//Importing self-written modules.
+var config = require('./configuration');
 var database = require('./database')();
 
+//Getting local variables from the configuration file.
+var schoolID = config().schoolID;
+
+/**
+ * Function for doing a lookup in the database containing all records
+ * of students, teachers and classrooms.
+ * @param {Object} req - Request object supplied by Express.
+ * @param {Object} res - Response object supplied by Express.
+ * @param {Function} next - Next function supplied by Express.
+ * @param {String} search - The search query given by the user.
+ */
 function get(req, res, next, search) {
   var index = database.collection('index');
   easter(search) ? req.easter = easter(search) : null;
@@ -28,6 +38,13 @@ function get(req, res, next, search) {
   }
 }
 
+/**
+ * Function for handling a lookup request after it has(n't) found matches.
+ * @param {Object} req - Request object supplied by Express.
+ * @param {Object} res - Response object supplied by Express.
+ * @param {Function} next - Next function supplied by Express.
+ * @param {Array} databaseEntry - The search query given by the user.
+ */
 function handle(req, res, next, databaseEntry) {
   if ((req.easter || {}).type == 'RIP') {
       require('./auth').is(req, res, function () {
@@ -52,6 +69,11 @@ function handle(req, res, next, databaseEntry) {
   }
 }
 
+/**
+ * Function for doing a lookup via the API.
+ * @param {Object} req - Request object supplied by Express.s.
+ * @param {Function} callback - Callback function needed to return the API call.
+ */
 function api(req, callback) {
   var index = database.collection('index');
   var query = RegExp(req.query.name, 'i');
@@ -65,6 +87,13 @@ function api(req, callback) {
   });
 }
 
+/**
+ * Function for listing all of the students in a group.
+ * @param {Object} req - Request object supplied by Express.
+ * @param {Object} res - Response object supplied by Express.
+ * @param {Function} next - Next function supplied by Express.
+ * @param {String} list - The search (group) query given by the user.
+ */
 function list(req, res, next, list) {
   var index = database.collection('index');
   var query = RegExp(list, 'i');
@@ -81,6 +110,12 @@ function list(req, res, next, list) {
   });
 }
 
+/**
+ * Function for making an url based on the found database match.
+ * @param {Object} req - Request object supplied by Express.
+ * @param {Array} databaseEntry - The database object used to create the url.
+ * @return {String} url - The url that was created.
+ */
 function makeUrl(req, databaseEntry) {
   var url = 'http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + schoolID + '&type=' + databaseEntry.type.charAt(0).toUpperCase() + databaseEntry.type.slice(1) + 'rooster';
 
@@ -107,6 +142,10 @@ function makeUrl(req, databaseEntry) {
   return url;
 }
 
+/**
+ * Function for checking if the requested search query has an easteregg.
+ * @param {String} search - The user supplied search query.
+ */
 function easter(search) {
   var list = JSON.parse(fs.readFileSync(__dirname + '/eastereggs.json'));
 
@@ -117,9 +156,14 @@ function easter(search) {
   return null;
 }
 
-module.exports = {'get': get, 'api': api, 'list': list};
+//Export the functions as a module.
+module.exports = {
+  'get': get,
+  'api': api,
+  'list': list
+};
 
 //Testing function, if test is passed in the command line will execute a test.
 if (process.argv[2] == "test") {
-  console.log(easter('aardappel'));
+  console.log(easter('lord of the memeries'));
 }

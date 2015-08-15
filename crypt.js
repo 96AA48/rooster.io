@@ -1,35 +1,52 @@
+//crypt.js
+
+//Import first-party modules.
 var crypto = require('crypto');
 
-var clearEncoding = 'utf8';
-var cipherEncoding = 'hex';
+//Set local variables.
+var encoding = 'utf8';
+var cryptEncoding = 'hex';
 var algo = 'aes192';
-var passwd = 'thisaintnosensitivedataatalldontreadthisorillgetmadatyourfaceyoumofo';
+var passwd = 'JMU6DAQpzt32hJ2WndJxFvk3WHWqFcscq9yMMYkr8kgTtsam';
 
-module.exports = {
-	encrypt : function (str) {
-		var cipher = crypto.createCipher(algo, passwd);
-		var cipherChunks = [];
+//Prepare the ciphering and deciphering.
+var cipher = crypto.createCipher(algo, passwd);
+var decipher = crypto.createDecipher(algo, passwd);
 
-		cipherChunks.push(cipher.update(str, clearEncoding, cipherEncoding));
-		cipherChunks.push(cipher.final(cipherEncoding));
+/**
+ * Function for encrypting a string.
+ * @param {String} str - String that you want to encrypt.
+ * @return {String} encryptArray - Encrypted string.
+ */
+function encrypt(str) {
+	var encryptArray = [];
 
-		return cipherChunks[1];
-	},
-	decrypt : function (str) {
-		str = [str];
-		var plainChunks = [];
-		try {
-			var decipher = crypto.createDecipher(algo, passwd);
+	encryptArray.push(cipher.update(str, encoding, cryptEncoding));
+	encryptArray.push(cipher.final(cryptEncoding));
 
-			for (var i = 0;i < str.length;i++) {
-			  plainChunks.push(decipher.update(str[i], cipherEncoding, clearEncoding));
-			}
+	return encryptArray.join('');
+}
 
-			plainChunks.push(decipher.final(clearEncoding));
-			return plainChunks.join('');
-		}
-		catch (err) {
-			return str.join('');
-		}
+/**
+ * Function to decrypt a string.
+ * @param {String} str - String you want to decrypt
+ */
+function decrypt(str) {
+	var decryptArray = [];
+
+	try {
+		decryptArray.push(decipher.update(str, cryptEncoding, encoding));
+		decryptArray.push(decipher.final(encoding));
+
+		return decryptArray.join('');
 	}
+	catch (err) {
+		return str.join('');
+	}
+}
+
+//Export the functions as a module.
+module.exports = {
+	'encrypt': encrypt,
+	'decrypt': decrypt
 }

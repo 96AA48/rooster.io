@@ -1,7 +1,17 @@
 //api.js
+
+//Importing self-written modules.
 var lookup = require('./lookup');
 var schedule = require('./schedule');
 
+/**
+ * Takes the information from the request
+ * and tries to return information.
+ * @param {Object} req - Request object supplied by Express.
+ * @param {Object} res - Response object supplied by Express.
+ * @param {Function} next - Next function supplied by Express.
+ * @param {String} api - Type of API request supplied by the user.
+ */
 function parse(req, res, next, api) {
   req.api = true;
 
@@ -32,6 +42,14 @@ function parse(req, res, next, api) {
   }
 }
 
+/**
+ * Returns an error to the user when the request
+ * was unable to complete.
+ * @param {String} str - The error message to display.
+ * @param {Object} res - Reponse object supplied by Express.
+ * @param {Function} next - Next function supplied by Express.
+ * @return {null}
+ */
 function error(str, res, data) {
   res.set('Content-Type', 'application/json');
   var error = JSON.stringify({'error' : str, 'data' : data}, null, 2);
@@ -39,6 +57,13 @@ function error(str, res, data) {
   return;
 }
 
+/**
+ * Sends a response to the user that did an API request.
+ * @param {Object} data - Data object with requested data.
+ * @param {Object} res - Response object supplied by Express.
+ * @param {Bool} disablePretty - Boolean to disable pretty printing of the response.
+ * @return {null}
+ */
 function sendResponse(data, res, disablePretty) {
   res.set('Content-Type', 'application/json');
   var response = JSON.stringify({'data': data}, null, disablePretty ? 0 : 2);
@@ -46,4 +71,5 @@ function sendResponse(data, res, disablePretty) {
   return;
 }
 
+//Exporting the parse function as a module.
 module.exports = parse;

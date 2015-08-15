@@ -1,7 +1,16 @@
 //database.js
-var config = require('./configuration');
+
+//Import first-party modules.
 var fs = require('fs');
 
+//Import self-written modules.
+var config = require('./configuration');
+
+/**
+ * Module for using a database interface.
+ * Either local (NeDB) or remote (MongoDB).
+ * @return {Object} database - Entire database engine (NeDB/MongoDB).
+ */
 module.exports = function () {
   if (!config().localDatabase) return require('mongoskin').db('mongodb://' + config().database);
   else {

@@ -1,7 +1,12 @@
 //configuration.js
+
+//Import first-party modules.
 var fs = require('fs');
 
-//Function for loading and returning the settings.json file, makes one if there isn't one.
+/**
+ * Module for the return/creating of a settings file/object.
+ * @return {Object} settings - Object of all the settings.
+ */
 module.exports = function () {
    if (!fs.existsSync(__dirname + '/settings.json')) {
       //Template for settings.json if not available.
@@ -39,6 +44,7 @@ module.exports = function () {
    }
 }
 
+//Testing command when passed a test argument in the commandline
 if (process.argv[2] == 'test') {
    console.log(module.exports());
 }

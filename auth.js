@@ -1,11 +1,20 @@
-//authv2.js
+//auth.js
+
+//Importing first and third-party modules.
 var qs = require('querystring');
 var https = require('socks5-https-client');
 
+//Importing self-written modules.
 var crypt = require('./crypt');
 var config = require('./configuration');
 var lookup = require('./lookup');
 
+/**
+ * Function for starting a login request with the Magister servers.
+ * @param {String} username - Username needed for login.
+ * @param {String} password - Password needed for login.
+ * @param {Function} callback - Callback function to be called after request.
+ */
 function getLogin(username, password, callback) {
 	var login = qs.stringify({
 		GebruikersNaam : username,
@@ -29,6 +38,14 @@ function getLogin(username, password, callback) {
 	}).write(login);
 }
 
+/**
+ * Function for doing a login to the rooster.io server
+ * this is being called by the web frontend when the
+ * user logs in.
+ * @param {Object} req - Request object supplied by Express.
+ * @param {Object} res - Response object supplied by Express.
+ * @param {Function} next - Next function supplied by Express.
+ */
 function login(req, res, next) {
 	var _data = '';
 
@@ -52,12 +69,24 @@ function login(req, res, next) {
 	});
 }
 
+/**
+ * Function for logging a user out
+ * of a session on rooster.io.
+ * @param {Object} req - Request object supplied by Express.
+ * @param {Object} res - Response object supplied by Express.
+ */
 function logout(req, res) {
 	res.cookie('username', '');
 	res.cookie('password', '');
 	res.redirect('/');
 }
 
+/**
+ * Function for checking if the user is currently authenticated.
+ * @param {Object} req - Request object supplied by Express.
+ * @param {Object} res - Response object supplied by Express.
+ * @param {Function} next - Next function supplied by Express.
+ */
 function is(req, res, next) {
 	var cookies = qs.parse((req.headers.cookie || '').replace(/\s/g, ''), ';', '=');
 	if (!cookies.username || !cookies.password) {next(); return;}
@@ -79,6 +108,7 @@ function is(req, res, next) {
 	});
 }
 
+//Exporting the functions as a module.
 module.exports = {
 	'login' : login,
 	'logout' : logout,
