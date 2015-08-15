@@ -35,7 +35,7 @@ function getSchedule(getUrl, callback) {
   });
 }
 
-function types(page) {
+function scheduleTypes(page) {
    var extract = cheerio('table tr td[valign="bottom"] table tr td b, table tr td[valign="bottom"] table tr td a', page).text().split(/\s\s/);
    var tab = 0;
    var types = [];
@@ -54,7 +54,7 @@ function types(page) {
 //Function for converting the page into a json dataset.
 function toJSON(page) {
   var result = cheerio('td:nth-child(3) table', page);
-  var types = types(page);
+  var types = scheduleTypes(page);
   var isTeacher = cheerio(cheerio(page).find('tr.CoreDark').find('td')[3]).find('a').html() == null;
   var amountOfDays = cheerio(result).find('tr.AccentDark').find('td').length - 1;
   var amountOfHours = config().amountOfHours;

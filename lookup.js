@@ -6,7 +6,7 @@ var schoolID = config().schoolID;
 
 //Getting first and third party modules
 var fs = require('fs');
-var database = require('mongoskin').db('mongodb://' + config().database);
+var database = require('./database')();
 
 function get(req, res, next, search) {
   var index = database.collection('index');
@@ -14,31 +14,42 @@ function get(req, res, next, search) {
   easter(search) ? search = easter(search).name : null;
   search = new RegExp(search, 'i');
 
-  index.find({$or : [{id : search}, {name : search}, {first_name : search}, {last_name : search}, {username: search}]}).toArray(function (err, databaseEntry) {
-    if (err) console.warn(err);
+  if (!config().localDatabase) {
+    index.find({$or : [{id : search}, {name : search}, {first_name : search}, {last_name : search}, {username: search}]}).toArray(function (err, databaseEntry) {
+      if (err) console.warn(err);
+      handle(req, next, databaseEntry);
+    });
+  }
+  else {
+    index.find({$or : [{id : search}, {name : search}, {first_name : search}, {last_name : search}, {username: search}]}, function (err, databaseEntry) {
+      if (err) console.warn(err);
+      handle(req, next, databaseEntry);
+    });
+  }
+}
 
-    if ((req.easter || {}).type == 'RIP') {
-        require('./auth').is(req, res, function () {
-          res.render('schedule', req);
-        });
-    }
-    else if (databaseEntry.length == 1) {
-      databaseEntry[0].url = makeUrl(req, databaseEntry[0]);
-      req.match = databaseEntry[0];
-      next();
-    }
-    else if (databaseEntry.length == 0) {
+function handle(req, next, databaseEntry) {
+  if ((req.easter || {}).type == 'RIP') {
       require('./auth').is(req, res, function () {
-        res.render('not_found', req);
+        res.render('schedule', req);
       });
-    }
-    else {
-      req.match = databaseEntry;
-      require('./auth').is(req, res, function () {
-        res.render('list', req);
-      });
-    }
-  });
+  }
+  else if (databaseEntry.length == 1) {
+    databaseEntry[0].url = makeUrl(req, databaseEntry[0]);
+    req.match = databaseEntry[0];
+    next();
+  }
+  else if (databaseEntry.length == 0) {
+    require('./auth').is(req, res, function () {
+      res.render('not_found', req);
+    });
+  }
+  else {
+    req.match = databaseEntry;
+    require('./auth').is(req, res, function () {
+      res.render('list', req);
+    });
+  }
 }
 
 function api(req, callback) {

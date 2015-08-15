@@ -1,9 +1,9 @@
 var http = require('socks5-http-client');
 var cheerio = require('cheerio');
 var iconv = require('iconv-lite');
-var mongodb = require('mongodb').MongoClient;
 var config = require('./configuration');
 var url = require('url');
+var database = require('./')();
 
 var scheduletypes = [
   'Klasrooster',
@@ -12,7 +12,6 @@ var scheduletypes = [
   'Lokaalrooster'
 ];
 var schoolID;
-var database;
 
 //Function for getting pages with http requests.
 function get() {
@@ -123,12 +122,7 @@ function rip(data) {
 //Function being called to access functionality from this module.
 function crawl() {
   schoolID = config().schoolID;
-  mongodb.connect('mongodb://' + config().database, function (error, db) {
-    if (error) console.warn(error);
-    database = db;
-
-    get();
-  });
+  get();
 }
 
 
@@ -144,6 +138,6 @@ module.exports = {
   'crawl' : crawl
 }
 
-if (process.argv[2] == 'test') {
+if (process.argv[2] == 'test' || process.argv[2] == 'rip') {
   module.exports.crawl(934);
 }
