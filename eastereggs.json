@@ -64,5 +64,10 @@
 			"easter" : "aardappel",
 			"name" : "Sjors Mulder",
 			"type" : "student"
+		},
+		{
+			"easter" : "lord of the memeries",
+			"name" : "Chris",
+			"type": "RIP"
 		}
 ]
