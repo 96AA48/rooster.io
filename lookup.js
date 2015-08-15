@@ -6,37 +6,36 @@ var school_id = config().school_id;
 
 //Getting first and third party modules
 var fs = require('fs');
-var database = require('mongoskin').db('mongodb://' + config().database); //Initialize the database connection.
+var database = require('mongoskin').db('mongodb://' + config().database);
 
-//Function for looking through the database and finding entries related to the searchterm.
 function get(req, res, next, search) {
-  var index = database.collection('index'); //Initialize the database collection.
-  easter(search) ? req.easter = easter(search) : null; //Bind the easter object to the request object.
-  easter(search) ? search = easter(search).name : null; //Check if there are any eastereggs matching the search query.
-  search = new RegExp(search, 'i'); //Make regular exeption for ignoring the case (Bram vs BRAM) should return the same.
+  var index = database.collection('index');
+  easter(search) ? req.easter = easter(search) : null;
+  easter(search) ? search = easter(search).name : null;
+  search = new RegExp(search, 'i');
 
   index.find({$or : [{id : search}, {name : search}, {first_name : search}, {last_name : search}, {username: search}]}).toArray(function (err, database_entry) {
     if (err) console.warn(err);
 
-    if (req.easter.type == 'RIP') { //There is an easteregg type that is a grave stone for old students and teachers, here's the logical exception for it.
-        require('./auth').is(req, res, function () { //Ask the authentication system if the user is authenticated (will happen several times in the module).
+    if (req.easter.type == 'RIP') {
+        require('./auth').is(req, res, function () {
           res.render('schedule', req);
         });
     }
-    else if (database_entry.length == 1) { //If there was a match in the system with the supplied
+    else if (database_entry.length == 1) {
       database_entry[0].url = make_url(req, database_entry[0]);
       req.match = database_entry[0];
       next();
     }
-    else if (database_entry.length == 0) { //If there were no matches found.
+    else if (database_entry.length == 0) {
       require('./auth').is(req, res, function () {
-        res.render('not_found', req); //Render the not_found page.
+        res.render('not_found', req);
       });
     }
-    else { //If there are multiple matches found in the system
+    else {
       req.match = database_entry;
       require('./auth').is(req, res, function () {
-        res.render('list', req); //Render the list view
+        res.render('list', req);
       });
     }
   });
@@ -71,7 +70,6 @@ function list(req, res, next, list) {
   });
 }
 
-//Function for making a link out of the given database_entry.
 function make_url(req, database_entry) {
   var url = 'http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + school_id + '&type=' + database_entry.type.charAt(0).toUpperCase() + database_entry.type.slice(1) + 'rooster';
 
@@ -98,8 +96,6 @@ function make_url(req, database_entry) {
   return url;
 }
 
-//Function for checking the given search query for eatereggs.
-//TODO: add a way to supply a template file for eastereggs.
 function easter(search) {
   console.log('search', search);
   var list = JSON.parse(fs.readFileSync(__dirname + '/eastereggs.json'));
