@@ -16,7 +16,7 @@ module.exports = function (req, res) {
       query.search = query.search.trim();
 
       if (query.search == 'hoewerkt') res.redirect('http://hoewerkt.werkmanrooster.nl');
-      res.redirect('/' + referer + '/' + query.search);
+      else res.redirect('/' + referer + '/' + query.search);
     }
     else {
       res.redirect('/');
