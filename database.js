@@ -1,4 +1,9 @@
 //database.js
+/**
+ *  Module for using a database interface
+ * Either local (NeDB) or remote (MongoDB) based on configuration values.
+ * @module database
+ */
 
 //Import first-party modules.
 var fs = require('fs');
@@ -7,7 +12,7 @@ var fs = require('fs');
 var config = require('./configuration');
 
 /**
- * Module for using a database interface.
+ * Function for using a database interface.
  * Either local (NeDB) or remote (MongoDB).
  * @return {Object} database - Entire database engine (NeDB/MongoDB).
  */

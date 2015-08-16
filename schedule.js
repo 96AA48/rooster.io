@@ -1,4 +1,9 @@
 //schedule.js
+/**
+ * Module for parsing downloaded schedule pages into useable/readable JSON objects.
+ * Usually used after a lookup with the supplied information from it.
+ * @module schedule
+ */
 
 //Import first-party modules.
 var url = require('url');

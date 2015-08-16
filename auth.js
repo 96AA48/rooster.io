@@ -1,4 +1,8 @@
 //auth.js
+/**
+ *  Module for handling the Authentication in the web application.
+ * @module auth
+ */
 
 //Importing first and third-party modules.
 var qs = require('querystring');

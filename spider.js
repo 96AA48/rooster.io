@@ -1,4 +1,9 @@
 //spider.js
+/**
+ * Module/script for getting students, teachers, chambers and groups from the schedule website.
+ * This script needs to be run before using the application, as the website will have no information to run on.
+ * @module spider
+ */
 
 //Import first-party modules.
 var url = require('url');

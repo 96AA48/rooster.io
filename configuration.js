@@ -1,10 +1,14 @@
 //configuration.js
+/**
+ *  Module for the return/creating of a settings file/object.
+ * @module configuration
+ */
 
 //Import first-party modules.
 var fs = require('fs');
 
 /**
- * Module for the return/creating of a settings file/object.
+ * Function for the return/creating of a settings file/object.
  * @return {Object} settings - Object of all the settings.
  */
 module.exports = function () {

@@ -1,4 +1,10 @@
 //web.js
+/**
+ * Module/script for setting up the web frontend and binding all of the modules
+ * together.
+ * @module web
+ */
+
 
 //Import first-party modules.
 var fs = require('fs');

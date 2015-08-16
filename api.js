@@ -1,4 +1,9 @@
 //api.js
+/**
+ * Module for handling API requests.
+ * API is able to be called through /api/:apirequest?=arguments
+ * @module api
+ */
 
 //Importing self-written modules.
 var lookup = require('./lookup');

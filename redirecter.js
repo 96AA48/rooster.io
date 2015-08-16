@@ -1,4 +1,9 @@
 //redirecter.js
+/**
+ * Module for redirecting the user based on what they typed into search.
+ * @module redirecter
+ */
+
 
 //Import first-party modules.
 var qs = require('querystring');

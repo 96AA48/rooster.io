@@ -1,4 +1,8 @@
 //crypt.js
+/**
+ *  Module for encrypting and decrypting strings.
+ * @module crypt
+ */
 
 //Import first-party modules.
 var crypto = require('crypto');
@@ -30,6 +34,7 @@ function encrypt(str) {
 /**
  * Function to decrypt a string.
  * @param {String} str - String you want to decrypt
+ * @return {String} The decrypted string. 
  */
 function decrypt(str) {
 	var decryptArray = [];

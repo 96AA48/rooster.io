@@ -1,4 +1,8 @@
 //lookup.js
+/**
+ *  Module for handling lookup requests by the user supplied search query.
+ * @module lookup
+ */
 
 //Importing first-party modules.
 var fs = require('fs');

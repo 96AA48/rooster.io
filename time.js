@@ -1,4 +1,10 @@
 //time.js
+/**
+ * Module handling time related tasks.
+ * Used for adding frontend features like showing what hour it currently is or
+ * changing color because the school day is over.
+ * @module time
+ */
 
 //Importing self-written modules.
 var config = require('./configuration');
@@ -31,7 +37,7 @@ function parse(timestr) {
 /**
  * Function for parsing and checking if the currrent time is within the parsed string.
  * @param {String} timespan - A string containing a time from and to (e.g "9:15 - 10:00")
- * @return {Boolean} - Returns true if the current time is within the timespan or false when it's not.
+ * @return {Boolean} Returns true if the current time is within the timespan or false when it's not.
  */
 function withinTimespan(timespan) {
   if (get() > parse(timespan)[0] && get() < parse(timespan)[1]) return true;
