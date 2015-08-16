@@ -6,7 +6,6 @@
  * @author Bram van der Veen <96aa48@gmail.com>
  */
 
-
 //Import first-party modules.
 var fs = require('fs');
 
@@ -79,6 +78,8 @@ app.param('api', api);
 
 //Initialize the server on configured web port.
 app.listen(config().webPort);
+console.log('Started rooster.io on port', config().webPort)
+plugins();
 
 /**
  * Function for initialising all of the plugins in the plugins/ directory.
@@ -89,7 +90,7 @@ function plugins() {
   for (plugin of pluginsDirectory) {
     var app = __dirname + '/plugins/' + plugin + '/app.js';
     if (fs.existsSync(app)) {
-      var app = require(app)(config().webPort + (1 + plugin.indexOf(pluginsDirectory)));
+      var app = require(app)(config().webPort + (1 + pluginsDirectory.indexOf(plugin)));
     }
   }
 }
