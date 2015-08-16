@@ -11,10 +11,10 @@ if !easter || easter.type != "RIP"
         li
           span A
           a(href=match.url, target="_blank") ndere roostersite
-        each type in match.json.types
+        each name in match.json.names
           li
-            span=type.letter
-            a(href='?tab=' + type.tab)=type.value
+            span=name.letter
+            a(href='?tab=' + name.tab)=name.value
       each day in match.json
         .day
           .hour.title

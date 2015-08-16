@@ -31,11 +31,11 @@ function get(req, res, next) {
 
 /**
  * Function for getting the information off of the schedule servers.
- * @param {String} url - The url of the page that needs to be downloaded.
+ * @param {String} getUrl - The url of the page that needs to be downloaded.
  * @param {Function} callback - Callback function to return the downloaded information.
  */
-function getSchedule(url, callback) {
-  var options = url.parse(url);
+function getSchedule(getUrl, callback) {
+  var options = url.parse(getUrl);
   options.socksPort = config().torPort;
   options.socksHost = config().torHost;
 
