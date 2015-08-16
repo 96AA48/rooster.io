@@ -1,0 +1,30 @@
+.bar(class= app.locals.time.duringSchool() ? 'duringschool' : '')
+  if headers.user
+    ul.left
+      li Hey, #{headers.user.first_name}
+      li | 
+      li 
+        a(href="/rooster/#{headers.user.id}") Jouw Rooster
+      li
+        a(href=headers.user.url, target="_blank") Andere roostersite
+      li |
+      li
+        a(href="/klassenlijst/#{headers.user.group}") Jouw Klassenlijst
+
+    ul.right
+      li 
+        a(href="/logout") Logout
+      li |
+      li
+        a(href="http://git.werkmanrooster.nl/werkmanrooster/rooster-io.git", target="_blank") Recente ontwikkelingen
+
+  else
+    ul
+      li 
+        a(href="/login") Login
+      li |
+      li
+        a(href="http://hoewerkt.werkmanrooster.nl", target="_blank") Hoe werkt Werkmanrooster?
+    ul.right
+      li
+        a(href="http://git.werkmanrooster.nl/werkmanrooster/rooster-io.git", target="_blank") Recente ontwikkelingen
