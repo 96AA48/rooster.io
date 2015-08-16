@@ -3,6 +3,7 @@
  *  Module for using a database interface
  * Either local (NeDB) or remote (MongoDB) based on configuration values.
  * @module database
+ * @author Bram van der Veen <96aa48@gmail.com>
  */
 
 //Import first-party modules.

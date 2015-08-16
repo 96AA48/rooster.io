@@ -2,6 +2,7 @@
 /**
  * Module for redirecting the user based on what they typed into search.
  * @module redirecter
+ * @author Bram van der Veen <96aa48@gmail.com>
  */
 
 

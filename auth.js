@@ -2,6 +2,7 @@
 /**
  *  Module for handling the Authentication in the web application.
  * @module auth
+ * @author Bram van der Veen <96aa48@gmail.com>
  */
 
 //Importing first and third-party modules.

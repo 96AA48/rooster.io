@@ -3,6 +3,7 @@
  * Module for handling API requests.
  * API is able to be called through /api/:apirequest?=arguments
  * @module api
+ * @author Bram van der Veen <96aa48@gmail.com>
  */
 
 //Importing self-written modules.

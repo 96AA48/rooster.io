@@ -2,6 +2,7 @@
 /**
  *  Module for handling lookup requests by the user supplied search query.
  * @module lookup
+ * @author Bram van der Veen <96aa48@gmail.com>
  */
 
 //Importing first-party modules.

@@ -4,6 +4,7 @@
  * Used for adding frontend features like showing what hour it currently is or
  * changing color because the school day is over.
  * @module time
+ * @author Bram van der Veen <96aa48@gmail.com>
  */
 
 //Importing self-written modules.

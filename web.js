@@ -3,6 +3,7 @@
  * Module/script for setting up the web frontend and binding all of the modules
  * together.
  * @module web
+ * @author Bram van der Veen <96aa48@gmail.com>
  */
 
 

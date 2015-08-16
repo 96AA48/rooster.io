@@ -3,6 +3,7 @@
  * Module/script for getting students, teachers, chambers and groups from the schedule website.
  * This script needs to be run before using the application, as the website will have no information to run on.
  * @module spider
+ * @author Bram van der Veen <96aa48@gmail.com>
  */
 
 //Import first-party modules.

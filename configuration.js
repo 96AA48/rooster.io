@@ -2,6 +2,7 @@
 /**
  *  Module for the return/creating of a settings file/object.
  * @module configuration
+ * @author Bram van der Veen <96aa48@gmail.com>
  */
 
 //Import first-party modules.

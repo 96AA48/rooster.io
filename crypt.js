@@ -2,6 +2,7 @@
 /**
  *  Module for encrypting and decrypting strings.
  * @module crypt
+ * @author Bram van der Veen <96aa48@gmail.com>
  */
 
 //Import first-party modules.
@@ -34,7 +35,7 @@ function encrypt(str) {
 /**
  * Function to decrypt a string.
  * @param {String} str - String you want to decrypt
- * @return {String} The decrypted string. 
+ * @return {String} The decrypted string.
  */
 function decrypt(str) {
 	var decryptArray = [];
