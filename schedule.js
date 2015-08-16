@@ -22,10 +22,14 @@ function get(req, res, next) {
     next();
   });
 }
-//FIXME: GO ON WITH THE REST OF THE DOCUMENTATION.
-//Function for getting the page via http.
-function getSchedule(getUrl, callback) {
-  var options = url.parse(getUrl);
+
+/**
+ * Function for getting the information off of the schedule servers.
+ * @param {String} url - The url of the page that needs to be downloaded.
+ * @param {Function} callback - Callback function to return the downloaded information.
+ */
+function getSchedule(url, callback) {
+  var options = url.parse(url);
   options.socksPort = config().torPort;
   options.socksHost = config().torHost;
 
@@ -42,26 +46,35 @@ function getSchedule(getUrl, callback) {
   });
 }
 
-function scheduleTypes(page) {
+/**
+ * Function for getting the names of the schedules with Regular Expressions
+ * @param {String} page - The downloaded page with schedule information.
+ * @return {Array} names - An array populated with the schedule names (basic, week)
+ */
+function scheduleNames(page) {
    var extract = cheerio('table tr td[valign="bottom"] table tr td b, table tr td[valign="bottom"] table tr td a', page).text().split(/\s\s/);
    var tab = 0;
-   var types = [];
+   var names = [];
 
    for (element of extract) {
-      element != '' ? types.push({
+      element != '' ? names.push({
         'letter': element.substr(0, 1),
         'value' : element.match(/.*rooster|t\/m|\d\d\s\w{3}/gi).join(' ').slice(1).toLowerCase(),
         'tab': tab++
       }) : null;
    }
 
-   return types;
+   return names;
 }
 
-//Function for converting the page into a json dataset.
+/**
+ * Function for converting the page (string) into a JSON datastructure.
+ * @param {String} page - The downloaded page with schedule information.
+ * @return {Object} scheduleData - The converted JSON datastructure.
+ */
 function toJSON(page) {
   var result = cheerio('td:nth-child(3) table', page);
-  var types = scheduleTypes(page);
+  var names = scheduleNames(page);
   var isTeacher = cheerio(cheerio(page).find('tr.CoreDark').find('td')[3]).find('a').html() == null;
   var amountOfDays = cheerio(result).find('tr.AccentDark').find('td').length - 1;
   var amountOfHours = config().amountOfHours;
@@ -93,7 +106,7 @@ function toJSON(page) {
     }
   }
 
-  scheduleData.types = types;
+  scheduleData.names = names;
 
   return scheduleData;
 }
@@ -109,4 +122,7 @@ function api(lookup, callback) {
 }
 
 //Exporting the schedule function.
-module.exports = {'get': get, 'api': api};
+module.exports = {
+  'get': get,
+  'api': api
+};

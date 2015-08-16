@@ -1,20 +1,31 @@
+//spider.js
+
+//Import first-party modules.
+var url = require('url');
+
+//Import third-party modules
 var http = require('socks5-http-client');
 var cheerio = require('cheerio');
 var iconv = require('iconv-lite');
+
+//Import self-written modules.
 var config = require('./configuration');
-var url = require('url');
 var database = require('./database')();
 
+//Define local variables.
 var scheduletypes = [
   'Klasrooster',
   'Docentrooster',
   'Leerlingrooster',
   'Lokaalrooster'
 ];
-var schoolID;
+var schoolID = config().schoolID;
 
-//Function for getting pages with http requests.
-function get() {
+/**
+ * Function for crawling the schedule site for data such as: students, teachers
+ * chambers and groups.
+ */
+function crawl() {
   database.collection('index').drop();
 
   for (scheduletype of scheduletypes) {
@@ -43,24 +54,30 @@ function get() {
   }
 }
 
-//Function for extracting the lists with useful information from the crawled pages.
-//(e.g Student names/ids, Teacher codes, Chamber numbers)
+/**
+ * Function for extracting the lists with useful information from the crawled pages.
+ * (e.g Student names/ids, Teacher codes, Chamber numbers)
+ * @param {String} page - A string containing a downloaded schedule page.
+ */
 function extract(page) {
 	var array = cheerio('select', page).text().split('\n');
 	return array.splice(1, array.length - 2);
 }
 
-//Function for ripping all of the information
-function rip(data) {
-  var list = extract(data.data);
+/**
+ * Function for ripping all possible information from a page.
+ * @param {String} page - A string containing a downloaded schedule page.
+ */
+function rip(page) {
+  var list = extract(page.data);
   var collection = database.collection('index');
 
-  if (data.type == 'Leerlingrooster') {
+  if (page.type == 'Leerlingrooster') {
 
     for(studentcategory of list) {
 
       (function (studentcategory) {
-        var options = url.parse('http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + schoolID + '&type=' + data.type + '&afdeling=' + studentcategory);
+        var options = url.parse('http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + schoolID + '&type=' + page.type + '&afdeling=' + studentcategory);
         options.socksPort = config().torPort;
         options.socksHost = config().torHost;
 
@@ -89,10 +106,10 @@ function rip(data) {
                   'first_name' : name.split(' ')[0],
                   'last_name' : name.split(' ').splice(1).join(' '),
                   'studentcategory' : studentcategory,
-                  'type' : data.type.replace(/rooster/g, '').toLowerCase()
+                  'type' : page.type.replace(/rooster/g, '').toLowerCase()
                 }
 
-                collection.insert(databaseEntry, showOutput);
+                collection.insert(databaseEntry);
 
                 if (studentcategory == list[list.length - 1] && student == listOfStudents.length - 1) {
                   setTimeout(function () {
@@ -111,33 +128,20 @@ function rip(data) {
     for (entry of list) {
       var databaseEntry = {
         'name' : entry,
-        'type' : data.type.replace(/rooster/g, '').toLowerCase()
+        'type' : page.type.replace(/rooster/g, '').toLowerCase()
       }
 
-      collection.insert(databaseEntry, showOutput);
+      collection.insert(databaseEntry);
     }
   }
 }
 
-//Function being called to access functionality from this module.
-function crawl() {
-  schoolID = config().schoolID;
-  get();
-}
-
-
-//Redundant function for draining native-mongodb-driver output
-function showOutput(error, message) {
-  if (process.argv[3] == '-v') {
-    // if (error) process.stdout.write(error.toString());
-    if (message != null) console.log(message);
-  }
-}
-
+//Exporting functions as a module.
 module.exports = {
   'crawl' : crawl
 }
 
+//Testing/ripping command to be used from cli.
 if (process.argv[2] == 'test' || process.argv[2] == 'rip') {
   module.exports.crawl(934);
 }
