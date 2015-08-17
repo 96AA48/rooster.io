@@ -40,6 +40,7 @@ app.locals.time = time;
 app.use('/css', less(__dirname + '/resources/less'));
 app.use('/js', express.static(__dirname + '/resources/js'));
 app.use('/other', express.static(__dirname + '/resources/other'));
+app.use('/images', express.static(__dirname + '/resources/images'));
 
 //Initialising homepage.
 app.get('/', auth.is, function (req, res) {
