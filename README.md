@@ -3,6 +3,8 @@
 
 ---
 
+[![forthebadge](http://forthebadge.com/images/badges/powered-by-electricity.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
+
 This is the biggest project I've ever worked on. The first version (which is in a different repository) got me putting 560+ hours in, over the last two years.
 With this version I brought a lot of standardization as well as more readable and efficient code.
 
