@@ -83,13 +83,24 @@ function api(req, callback) {
   var index = database.collection('index');
   var query = RegExp(req.query.name, 'i');
 
-  index.find({$or : [{id : query}, {name : query}, {first_name : query}, {last_name : query}, {username: query}, {group: query}]}).toArray(function (err, databaseEntry) {
-    if (err) callback({'error': err});
-    else {
-      for (entry of databaseEntry) {entry.url = makeUrl(req, entry)}
-      callback({'data': databaseEntry});
-    }
-  });
+  if (!config().localDatabase) {
+    index.find({$or : [{id : query}, {name : query}, {first_name : query}, {last_name : query}, {username: query}, {group: query}]}).toArray(function (err, databaseEntry) {
+      if (err) callback({'error': err});
+      else {
+        for (entry of databaseEntry) {entry.url = makeUrl(req, entry)}
+        callback({'data': databaseEntry});
+      }
+    });
+  }
+  else {
+    index.find({$or : [{id : query}, {name : query}, {first_name : query}, {last_name : query}, {username: query}, {group: query}]}, function (err, databaseEntry) {
+      if (err) callback({'error': err});
+      else {
+        for (entry of databaseEntry) {entry.url = makeUrl(req, entry)}
+        callback({'data': databaseEntry});
+      }
+    });
+  }
 }
 
 /**
@@ -103,16 +114,30 @@ function list(req, res, next, list) {
   var index = database.collection('index');
   var query = RegExp(list, 'i');
 
-  index.find({group: list}).toArray(function (err, databaseEntry) {
-    if (err) {req.error = err; next();}
-    else {
-      if (databaseEntry.length < 1) require('./auth').is(req, res, function () {
-        res.render('not_found', req);
-      });
-      req.match = databaseEntry;
-      next();
-    }
-  });
+  if (!config().localDatabase) {
+    index.find({group: list}).toArray(function (err, databaseEntry) {
+      if (err) {req.error = err; next();}
+      else {
+        if (databaseEntry.length < 1) require('./auth').is(req, res, function () {
+          res.render('not_found', req);
+        });
+        req.match = databaseEntry;
+        next();
+      }
+    });
+  }
+  else {
+    index.find({group: list}, function (err, databaseEntry) {
+      if (err) {req.error = err; next();}
+      else {
+        if (databaseEntry.length < 1) require('./auth').is(req, res, function () {
+          res.render('not_found', req);
+        });
+        req.match = databaseEntry;
+        next();
+      }
+    });
+  }
 }
 
 /**
