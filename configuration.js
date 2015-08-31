@@ -22,6 +22,7 @@ module.exports = function () {
          'torHost' : 'example.com',
          'torPort' : 9050,
          'amountOfHours' : 7,
+         'encryptionKey': 'JMU6DAQpzt32hJ2WndJxFvk3WHWqFcscq9yMMYkr8kgTtsam',
          'times' : [
             '8:45 - 9:45',
             '9:45 - 10:45',

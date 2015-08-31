@@ -8,11 +8,14 @@
 //Import first-party modules.
 var crypto = require('crypto');
 
+//Import self-written modules.
+var config = require('./configuration');
+
 //Set local variables.
 var encoding = 'utf8';
 var cryptEncoding = 'hex';
 var algo = 'aes192';
-var passwd = 'JMU6DAQpzt32hJ2WndJxFvk3WHWqFcscq9yMMYkr8kgTtsam';
+var passwd = config().encryptionKey;
 
 /**
  * Function for encrypting a string.
