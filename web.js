@@ -91,7 +91,7 @@ function plugins() {
   for (plugin of pluginsDirectory) {
     var app = __dirname + '/plugins/' + plugin + '/app.js';
     if (fs.existsSync(app)) {
-      var app = require(app)(config().webPort + (1 + pluginsDirectory.indexOf(plugin)));
+      var app = require(app)(config().webPort + (1 + pluginsDirectory.indexOf(plugin)), config().webHost);
     }
   }
 }
