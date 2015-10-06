@@ -18,6 +18,8 @@ module.exports = function () {
       var settings = {
          'env' : 'dev',
          'database' : 'example.com/database',
+         "localDatabase" : true,
+         "webHost" : '0.0.0.0',
          'webPort' : 1024,
          'torHost' : 'example.com',
          'torPort' : 9050,

@@ -78,7 +78,7 @@ app.get('/api/:api', function (req, res, next) { next(); });
 app.param('api', api);
 
 //Initialize the server on configured web port.
-app.listen(config().webPort);
+app.listen(config().webPort, config().webHost);
 console.log('Started rooster.io on port', config().webPort)
 plugins();
 
