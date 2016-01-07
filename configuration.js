@@ -17,11 +17,11 @@ module.exports = function () {
       //Template for settings.json if not available.
       var settings = {
          'env' : 'dev',
-         'database' : 'example.com/database',
+         'database' : 'localhost/roosterio',
          "localDatabase" : true,
          "webHost" : '0.0.0.0',
          'webPort' : 1024,
-         'torHost' : 'example.com',
+         'torHost' : 'localhost',
          'torPort' : 9050,
          'amountOfHours' : 7,
          'encryptionKey': 'JMU6DAQpzt32hJ2WndJxFvk3WHWqFcscq9yMMYkr8kgTtsam',
