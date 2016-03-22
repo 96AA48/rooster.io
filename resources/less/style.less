@@ -1,5 +1,5 @@
 //style.less
-@import url('http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400|Oswald');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400|Oswald');
 
 .notice {
   background-color: #BB4848;
@@ -380,11 +380,35 @@ div.schedule {
 }
 
 .bijles {
-  height: 100px;
-  position: absolute;
+  height: 120px;
+  z-index: -1;
   width: 100%;
-  top: 30px;
-  margin-bottom: 10px;
+  top: 0px;
+  padding-top: 20px;
+  color: #FDFDFD;
+  font-family: Oswald;
+  text-align: center;
+  background-color: rgb(30, 115, 190);
+  position: relative;
+
+  sup {
+    position: relative;
+    top: -15px;
+  }
 }
 
+a[href="http://werkmanbijles.nl"] {
+  text-decoration: none;
+}
+
+#close {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-family: Oswald;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 3;
+  color: #FDFDFD;
+}
 @import "mobile";

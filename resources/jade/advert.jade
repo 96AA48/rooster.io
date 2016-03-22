@@ -1,5 +1,10 @@
 //- Advert
-.bijles
-  img
-  p Lorem ipsum dolor sit amet, ea choro platonem sit, vero iusto libris no vim. Et ius saepe eruditi, no noluisse scribentur est. Nec offendit recusabo reformidans in. Mel ex odio nibh habeo, vim ea modus regione apeirian.
-    
+
+if !app.locals.time.duringSchool()
+  #close X
+  a(href="http://werkmanbijles.nl", target="_blank")
+    .bijles
+      h1 WerkmanBijles
+      sup.
+        Bijlessen in alle vakken voor alle niveaus<br>
+        Klik op de banner voor onze website!
