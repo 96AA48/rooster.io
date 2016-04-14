@@ -2,8 +2,8 @@
   if headers.user
     ul.left
       li Hey, #{headers.user.first_name}
-      li | 
-      li 
+      li |
+      li
         a(href="/rooster/#{headers.user.id}") Jouw Rooster
       li
         a(href=headers.user.url, target="_blank") Andere roostersite
@@ -12,19 +12,25 @@
         a(href="/klassenlijst/#{headers.user.group}") Jouw Klassenlijst
 
     ul.right
-      li 
+      li
         a(href="/logout") Logout
       li |
       li
-        a(href="http://git.werkmanrooster.nl/werkmanrooster/rooster-io.git", target="_blank") Recente ontwikkelingen
+        a(href="http://hexli.me", target="_blank") The Dev
+      li |
+      li
+        a(href="http://github.com/96aa48/rooster.io", target="_blank") Github
 
   else
     ul
-      li 
+      li
         a(href="/login") Login
       li |
       li
         a(href="http://hoewerkt.werkmanrooster.nl", target="_blank") Hoe werkt Werkmanrooster?
     ul.right
       li
-        a(href="http://git.werkmanrooster.nl/werkmanrooster/rooster-io.git", target="_blank") Recente ontwikkelingen
+        a(href="http://hexli.me", target="_blank") The Dev
+      li |
+      li
+        a(href="http://github.com/96aa48/rooster.io", target="_blank") Github
