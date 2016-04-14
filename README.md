@@ -1,4 +1,5 @@
 ### Rooster.io
+![Werkmanrooster](http://i.imgur.com/5nXLQeM.png)
 ###### [Werkmanrooster.nl](http://werkmanrooster.nl)
 
 ---
