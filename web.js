@@ -83,9 +83,9 @@ function plugins() {
   var pluginsDirectory = fs.readdirSync(__dirname + '/plugins');
 
   for (plugin of pluginsDirectory) {
-    let app = __dirname + '/plugins/' + plugin + '/app.js';
+    var app = __dirname + '/plugins/' + plugin + '/app.js';
     if (fs.existsSync(app)) {
-      let app = require(app)(config().webPort + (1 + pluginsDirectory.indexOf(plugin)), config().webHost);
+      var app = require(app)(config().webPort + (1 + pluginsDirectory.indexOf(plugin)), config().webHost);
     }
   }
 }
