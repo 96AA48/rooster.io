@@ -1,10 +1,16 @@
 {
-  "name": "rooster-io",
+  "name": "rooster.io",
   "version": "0.0.1",
-  "description": "A new version of rooster.io",
-  "main": "index.js",
+  "description": "A pretty frontend for schedule made by Schoolmasters",
+  "main": "rooster",
   "scripts": {
-    "test": "node index.js"
+    "start": "rooster start",
+    "db": "rooster db",
+    "plugins": "rooster plugins"
+  },
+  "bin": {
+    "rooster": "rooster",
+    "roosterio": "rooster"
   },
   "author": "Bram van der Veen",
   "license": "MIT",

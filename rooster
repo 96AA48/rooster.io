@@ -1,0 +1,18 @@
+#!/bin/env node
+
+var args = process.argv.splice(2);
+var config = require('./configuration');
+
+if (args[0] == 'start') {
+  require('./web');
+}
+else if (args[0] == 'db') {
+  require('./spider').crawl(config().schoolID);
+}
+else if (args[0] == 'plugins') {
+  console.log('Most of the plugins are in a private repo of mine, but when you want to set those up and you have the login creditentials make sure to do this:');
+  console.log('git submodule init');
+  console.log('git submodule sync');
+  console.log('git submodule update');
+  console.log('After that, make sure to install deps for the plugins in their respective directories under ./plugins');
+}
