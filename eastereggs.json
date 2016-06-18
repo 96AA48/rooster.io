@@ -2,7 +2,8 @@
 		{
 			"easter" : "eekhoorn",
 			"name" : "Femke Heeling",
-			"type" : "student"
+			"text" : "Was eens een goede vriend, nu voor altijd een geweldige vriendin",
+			"type" : "RIP"
 		},
 		{
 			"easter" : "chocoladebeer",
@@ -30,14 +31,9 @@
 	 		"type" : "RIP"
 	 	},
 	 	{
-	 		"easter" : "die jongen met het coole haar",
-	 		"name" : "Jules Stenneker",
-	 		"type" : "student"
-	 	},
-	 	{
 	 		"easter" : "god",
 	 		"name" : "David Francois",
-	 		"type" : "student"
+	 		"type" : "RIP"
 	 	},
 	 	{
 	 		"easter" : "wobbes",
@@ -49,21 +45,6 @@
 			"name" : "Fimme Neeleman",
 			"text" : "Goeie huisman, vriend, gamer, geliefde en malleman",
 			"type" : "RIP"
-		},
-		{
-			"easter" : "hahanna",
-			"name" : "Hanna van Rheenen",
-			"type" : "student"
-		},
-		{
-			"easter" : "lala",
-			"name" : 21297,
-			"type" : "easter"
-		},
-		{
-			"easter" : "aardappel",
-			"name" : "Sjors Mulder",
-			"type" : "student"
 		},
 		{
 			"easter" : "lord of the memeries",
