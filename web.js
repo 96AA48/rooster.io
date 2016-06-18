@@ -35,6 +35,7 @@ app.set('views', __dirname + '/resources/pug');
 app.locals.linkbar = config().linkbar;
 app.locals.times = config().times;
 app.locals.time = time;
+app.locals.motd = require('./motd.json');
 
 //Set up all static directories for getting resources.
 app.use('/css', less(__dirname + '/resources/less'));
@@ -43,9 +44,7 @@ app.use('/other', express.static(__dirname + '/resources/other'));
 app.use('/images', express.static(__dirname + '/resources/images'));
 
 //Initialising homepage.
-app.get('/', auth.is, function (req, res) {
-  res.render('homepage', req);
-});
+app.get('/', (req, res) => res.render('homepage', req));
 
 //Initialize redirector when information is posted to the root of the website.
 app.post('/', redirecter);
@@ -53,12 +52,12 @@ app.post('/', redirecter);
 //Initialising behavior for searching.
 app.param('search', lookup.get);
 
-app.get('/rooster/:search', [auth.is, schedule.get, (req, res) => res.render('schedule', req)]);
+app.get('/rooster/:search', [schedule.get, (req, res) => res.render('schedule', req)]);
 
 //Initialising behavior for searching through lists.
 app.param('list', lookup.list);
 
-app.get('/klassenlijst/:list',[auth.is, (req, res) => res.render('list', req)]);
+app.get('/klassenlijst/:list', (req, res) => res.render('list', req));
 
 //Initialising login page frontend.
 app.get('/login', (req, res) => res.render('login', req));
@@ -68,7 +67,7 @@ app.post('/login', auth.login);
 app.get('/logout', auth.logout);
 
 //Intialising API handler.
-app.get('/api/:api', function (req, res, next) { next(); });
+app.get('/api/:api', (req, res, next) => next());
 app.param('api', api);
 
 //Initialize the server on configured web port.

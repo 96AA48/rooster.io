@@ -24,13 +24,15 @@
   else
     ul
       li
-        a(href="/login") Login
-      li |
-      li
         a(href="http://hoewerkt.werkmanrooster.nl", target="_blank") Hoe werkt Werkmanrooster?
     ul.right
       li
-        a(href="http://hexli.me", target="_blank") The Dev
+        a(href="http://hexli.me", target="_blank") Dev
       li |
       li
         a(href="http://github.com/96aa48/rooster.io", target="_blank") Github
+
+if app.locals.motd.enabled
+  .motd
+    p.bold #{app.locals.motd.header}
+    p!= app.locals.motd.body
