@@ -33,6 +33,7 @@ var scheduletypes = [
  * chambers and groups.
  */
 function crawl() {
+  console.log('Starting to crawl the schedule pages for names, student IDs, chambers and teachers');
   database.collection('index').drop();
 
   for (scheduletype of scheduletypes) {
@@ -73,7 +74,7 @@ function rip(page) {
   let collection = database.collection('index');
 
   if (page.type == 'Leerlingrooster') {
-
+    console.log('\nRipping a studentlist')
     for(studentcategory of list) {
 
       (function (studentcategory) {
@@ -106,7 +107,7 @@ function rip(page) {
                   'studentcategory' : studentcategory,
                   'type' : page.type.replace(/rooster/g, '').toLowerCase()
                 }
-
+                process.stdout.write('☐');
                 collection.insert(databaseEntry);
 
                 if (studentcategory == list[list.length - 1] && student == listOfStudents.length - 1) {
@@ -120,12 +121,13 @@ function rip(page) {
     }
   }
   else {
+    console.log('\nRipping a', page.type);
     for (entry of list) {
       let databaseEntry = {
         'name' : entry,
         'type' : page.type.replace(/rooster/g, '').toLowerCase()
       }
-
+      process.stdout.write('☐');
       collection.insert(databaseEntry);
     }
   }
