@@ -27,9 +27,9 @@ var time = require('./time');
 var app = express();
 
 //Set up jade rendering engine.
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 config().env == 'dev' ? app.disable('view cache') : null; //If the environment is set on 'dev' then view cache should be disabled.
-app.set('views', __dirname + '/resources/jade');
+app.set('views', __dirname + '/resources/pug');
 
 //Give the app some configuration information
 app.locals.linkbar = config().linkbar;
@@ -53,21 +53,15 @@ app.post('/', redirecter);
 //Initialising behavior for searching.
 app.param('search', lookup.get);
 
-app.get('/rooster/:search', [auth.is, schedule.get, function (req, res) {
-  res.render('schedule', req);
-}]);
+app.get('/rooster/:search', [auth.is, schedule.get, (req, res) => res.render('schedule', req)]);
 
 //Initialising behavior for searching through lists.
 app.param('list', lookup.list);
 
-app.get('/klassenlijst/:list',[auth.is, function (req, res) {
-  res.render('list', req);
-}]);
+app.get('/klassenlijst/:list',[auth.is, (req, res) => res.render('list', req)]);
 
 //Initialising login page frontend.
-app.get('/login', function (req, res) {
-  res.render('login', req);
-});
+app.get('/login', (req, res) => res.render('login', req));
 
 //Initialising login/logout behavior.
 app.post('/login', auth.login);
