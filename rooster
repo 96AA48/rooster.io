@@ -16,3 +16,11 @@ else if (args[0] == 'plugins') {
   console.log('git submodule update');
   console.log('After that, make sure to install deps for the plugins in their respective directories under ./plugins');
 }
+else {
+  console.log('rooster.io commandline util:');
+  console.log('commands:');
+  console.log('rooster start\t\t--\tStarts rooster.io from the commandline');
+  console.log('rooster db\t\t--\tInitializes the database with the students and stuff from the schoolID specified in the settings.json');
+  console.log('rooster plugins\t\t--\tShows help to setup plugins');
+  console.log('rooster help\t\t--\tShows this menu');
+}
