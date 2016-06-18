@@ -7,8 +7,8 @@
  */
 
 //Importing self-written modules.
-var lookup = require('./lookup');
-var schedule = require('./schedule');
+const lookup = require('./lookup');
+const schedule = require('./schedule');
 
 /**
  * Takes the information from the request
@@ -58,8 +58,7 @@ function parse(req, res, next, api) {
  */
 function error(str, res, data) {
   res.set('Content-Type', 'application/json');
-  var error = JSON.stringify({'error' : str, 'data' : data}, null, 2);
-  res.status(400).end(error);
+  res.status(400).end(JSON.stringify({'error' : str, 'data' : data}, null, 2));
   return;
 }
 
@@ -72,8 +71,7 @@ function error(str, res, data) {
  */
 function sendResponse(data, res, disablePretty) {
   res.set('Content-Type', 'application/json');
-  var response = JSON.stringify({'data': data}, null, disablePretty ? 0 : 2);
-  res.status(200).end(response);
+  res.status(200).end(JSON.stringify({'data': data}, null, disablePretty ? 0 : 2));
   return;
 }
 

@@ -7,25 +7,26 @@
  */
 
 //Import first-party modules.
-var url = require('url');
+const url = require('url');
 
 //Import third-party modules
-var http = require('socks5-http-client');
-var cheerio = require('cheerio');
-var iconv = require('iconv-lite');
+const http = require('socks5-http-client');
+const cheerio = require('cheerio');
+const iconv = require('iconv-lite');
 
 //Import self-written modules.
-var config = require('./configuration');
-var database = require('./database')();
+const config = require('./configuration');
+const database = require('./database')();
 
 //Define local variables.
+const schoolID = config().schoolID;
+
 var scheduletypes = [
   'Klasrooster',
   'Docentrooster',
   'Leerlingrooster',
   'Lokaalrooster'
 ];
-var schoolID = config().schoolID;
 
 /**
  * Function for crawling the schedule site for data such as: students, teachers
@@ -38,13 +39,13 @@ function crawl() {
 
     (function (scheduletype) {
 
-      var options = url.parse('http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + schoolID + '&type=' + scheduletype);
+      let options = url.parse('http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + schoolID + '&type=' + scheduletype);
       options.socksPort = config().torPort;
       options.socksHost = config().torHost;
 
       http.get(options, function (res) {
 
-        var _download = {};
+        let _download = {};
         _download.type = scheduletype;
 
         res.on('data', function (data) {
@@ -66,7 +67,7 @@ function crawl() {
  * @param {String} page - A string containing a downloaded schedule page.
  */
 function extract(page) {
-	var array = cheerio('select', page).text().split('\n');
+	let array = cheerio('select', page).text().split('\n');
 	return array.splice(1, array.length - 2);
 }
 
@@ -75,36 +76,36 @@ function extract(page) {
  * @param {String} page - A string containing a downloaded schedule page.
  */
 function rip(page) {
-  var list = extract(page.data);
-  var collection = database.collection('index');
+  let list = extract(page.data);
+  let collection = database.collection('index');
 
   if (page.type == 'Leerlingrooster') {
 
     for(studentcategory of list) {
 
       (function (studentcategory) {
-        var options = url.parse('http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + schoolID + '&type=' + page.type + '&afdeling=' + studentcategory);
+        let options = url.parse('http://roosters5.gepro-osi.nl/roosters/rooster.php?school=' + schoolID + '&type=' + page.type + '&afdeling=' + studentcategory);
         options.socksPort = config().torPort;
         options.socksHost = config().torHost;
 
         http.get(options, function (res) {
-          var _download = '';
+          let _download = '';
 
           res.on('data', function (data) {
             _download += iconv.decode(data, 'binary');
           });
 
           res.on('end', function () {
-            var listOfStudents = cheerio('select', _download).children();
+            let listOfStudents = cheerio('select', _download).children();
 
             for (student in listOfStudents) {
 
               if (!isNaN(student)) {
-                var name = cheerio(listOfStudents[student]).text().split(' - ')[1];
-                var group = cheerio(listOfStudents[student]).text().split(' - ')[0];
-                var id = cheerio(listOfStudents[student]).val();
+                let name = cheerio(listOfStudents[student]).text().split(' - ')[1];
+                let group = cheerio(listOfStudents[student]).text().split(' - ')[0];
+                let id = cheerio(listOfStudents[student]).val();
 
-                var databaseEntry = {
+                let databaseEntry = {
                   'id' : id,
                   'group' : group,
                   'username' : id + name.split(' ')[0].toLowerCase(),
@@ -132,7 +133,7 @@ function rip(page) {
   }
   else {
     for (entry of list) {
-      var databaseEntry = {
+      let databaseEntry = {
         'name' : entry,
         'type' : page.type.replace(/rooster/g, '').toLowerCase()
       }

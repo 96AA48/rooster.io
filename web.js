@@ -7,21 +7,21 @@
  */
 
 //Import first-party modules.
-var fs = require('fs');
+const fs = require('fs');
 
 //Import third-party modules.
-var express = require('express');
-var less = require('express-less');
-var body_parser = require('body-parser');
+const express = require('express');
+const less = require('express-less');
+const body_parser = require('body-parser');
 
 //Import self-written modules.
-var api = require('./api');
-var config = require('./configuration');
-var lookup = require('./lookup');
-var schedule = require('./schedule');
-var auth = require('./auth');
-var redirecter = require('./redirecter');
-var time = require('./time');
+const api = require('./api');
+const config = require('./configuration');
+const lookup = require('./lookup');
+const schedule = require('./schedule');
+const auth = require('./auth');
+const redirecter = require('./redirecter');
+const time = require('./time');
 
 //Setting local variables.
 var app = express();
@@ -83,9 +83,9 @@ function plugins() {
   var pluginsDirectory = fs.readdirSync(__dirname + '/plugins');
 
   for (plugin of pluginsDirectory) {
-    var app = __dirname + '/plugins/' + plugin + '/app.js';
+    let app = __dirname + '/plugins/' + plugin + '/app.js';
     if (fs.existsSync(app)) {
-      var app = require(app)(config().webPort + (1 + pluginsDirectory.indexOf(plugin)), config().webHost);
+      let app = require(app)(config().webPort + (1 + pluginsDirectory.indexOf(plugin)), config().webHost);
     }
   }
 }

@@ -8,14 +8,14 @@
  */
 
 //Importing self-written modules.
-var config = require('./configuration');
+const config = require('./configuration');
 
 /**
  * Function for getting the time, with minutes as a fracture.
  * @return {Float} time - The time, fractured (20.5 instead of 20:30)
  */
 function get() {
- var time = new Date();
+ let time = new Date();
  return time.getHours() + (time.getMinutes() / 60);
 }
 
@@ -25,8 +25,8 @@ function get() {
  * @return {Array} array - An array containing the time string split in two.
  */
 function parse(timestr) {
-  var parsed = timestr.match(/\d{1,2}:\d+/g);
-  var array = [];
+  let parsed = timestr.match(/\d{1,2}:\d+/g);
+  let array = [];
 
   for (time of parsed) {
     array.push(parseInt(time.split(':')[0]) + (parseInt(time.split(':')[1]) / 60));
@@ -51,8 +51,8 @@ function withinTimespan(timespan) {
   * @return {Boolean} - Returns true if the current time is within the timespan or false when it's not.
  */
 function duringSchool() {
-  var start = parse(config().times[0])[0];
-  var end = parse(config().times[config().times.length - 1])[1];
+  let start = parse(config().times[0])[0];
+  let end = parse(config().times[config().times.length - 1])[1];
 
   if (get() > start && get() < end) return true;
   else return false;

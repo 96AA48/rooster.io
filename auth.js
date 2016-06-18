@@ -6,13 +6,13 @@
  */
 
 //Importing first and third-party modules.
-var qs = require('querystring');
-var https = require('socks5-https-client');
+const qs = require('querystring');
+const https = require('socks5-https-client');
 
 //Importing self-written modules.
-var crypt = require('./crypt');
-var config = require('./configuration');
-var lookup = require('./lookup');
+const crypt = require('./crypt');
+const config = require('./configuration');
+const lookup = require('./lookup');
 
 /**
  * Function for starting a login request with the Magister servers.
@@ -21,7 +21,7 @@ var lookup = require('./lookup');
  * @param {Function} callback - Callback function to be called after request.
  */
 function getLogin(username, password, callback) {
-	var login = qs.stringify({
+	let login = qs.stringify({
 		GebruikersNaam : username,
 		Wachtwoord : password
 	});
@@ -52,18 +52,18 @@ function getLogin(username, password, callback) {
  * @param {Function} next - Next function supplied by Express.
  */
 function login(req, res, next) {
-	var _data = '';
+	let _data = '';
 
 	req.on('data', function (data) {
 		_data += data;
 	});
 
 	req.on('end', function () {
-		var loginInformation = qs.parse(_data)
+		let loginInformation = qs.parse(_data)
 
 		getLogin(loginInformation.username, loginInformation.password, function (legit) {
-			var username = crypt.encrypt(loginInformation.username);
-			var password = crypt.encrypt(loginInformation.password);
+			let username = crypt.encrypt(loginInformation.username);
+			let password = crypt.encrypt(loginInformation.password);
 			if (legit) {
 		    res.cookie('username', username);
 		    res.cookie('password', password);
@@ -93,10 +93,10 @@ function logout(req, res) {
  * @param {Function} next - Next function supplied by Express.
  */
 function is(req, res, next) {
-	var cookies = qs.parse((req.headers.cookie || '').replace(/\s/g, ''), ';', '=');
+	let cookies = qs.parse((req.headers.cookie || '').replace(/\s/g, ''), ';', '=');
 	if (!cookies.username || !cookies.password) {next(); return;}
 
-	var username = crypt.decrypt(cookies.username),
+	let username = crypt.decrypt(cookies.username),
 	password = crypt.decrypt(cookies.password);
 
 	getLogin(username, password, function (legit) {

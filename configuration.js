@@ -6,7 +6,7 @@
  */
 
 //Import first-party modules.
-var fs = require('fs');
+const fs = require('fs');
 
 /**
  * Function for the return/creating of a settings file/object.

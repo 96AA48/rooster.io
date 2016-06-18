@@ -7,14 +7,14 @@
  */
 
 //Import first-party modules.
-var url = require('url');
+const url = require('url');
 
 //Import third-party modules.
-var http = require('socks5-http-client');
-var cheerio = require('cheerio');
+const http = require('socks5-http-client');
+const cheerio = require('cheerio');
 
 //Import self-written modules.
-var config = require('./configuration');
+const config = require('./configuration');
 
 /**
  * Function being called by Express when the user requests a schedule.
@@ -35,12 +35,12 @@ function get(req, res, next) {
  * @param {Function} callback - Callback function to return the downloaded information.
  */
 function getSchedule(getUrl, callback) {
-  var options = url.parse(getUrl);
+  let options = url.parse(getUrl);
   options.socksPort = config().torPort;
   options.socksHost = config().torHost;
 
   http.get(options, function (res) {
-    var _download = '';
+    let _download = '';
 
     res.on('data', function (data) {
       _download += data;
@@ -58,9 +58,9 @@ function getSchedule(getUrl, callback) {
  * @return {Array} names - An array populated with the schedule names (basic, week)
  */
 function scheduleNames(page) {
-   var extract = cheerio('table tr td[valign="bottom"] table tr td b, table tr td[valign="bottom"] table tr td a', page).text().split(/\s\s/);
-   var tab = 0;
-   var names = [];
+   let extract = cheerio('table tr td[valign="bottom"] table tr td b, table tr td[valign="bottom"] table tr td a', page).text().split(/\s\s/);
+   let tab = 0;
+   let names = [];
 
    for (element of extract) {
       element != '' ? names.push({
@@ -79,15 +79,15 @@ function scheduleNames(page) {
  * @return {Object} scheduleData - The converted JSON datastructure.
  */
 function toJSON(page) {
-  var result = cheerio('td:nth-child(3) table', page);
-  var names = scheduleNames(page);
-  var isTeacher = cheerio(cheerio(page).find('tr.CoreDark').find('td')[3]).find('a').html() == null;
-  var amountOfDays = cheerio(result).find('tr.AccentDark').find('td').length - 1;
-  var amountOfHours = config().amountOfHours;
+  let result = cheerio('td:nth-child(3) table', page);
+  let names = scheduleNames(page);
+  let isTeacher = cheerio(cheerio(page).find('tr.CoreDark').find('td')[3]).find('a').html() == null;
+  let amountOfDays = cheerio(result).find('tr.AccentDark').find('td').length - 1;
+  let amountOfHours = config().amountOfHours;
 
-  var scheduleData = [];
+  let scheduleData = [];
 
-  var offset = isTeacher ? 5 : 6;
+  let offset = isTeacher ? 5 : 6;
 
   //Looping for amount of days
   for (day = 0; day < amountOfDays; day++) {
@@ -95,13 +95,13 @@ function toJSON(page) {
 
     //Looping for amount of hours
     for (hour = 0; hour < amountOfHours; hour++) {
-      var schedule = cheerio('tr:nth-child('+ (offset + hour) +')', result);
+      let schedule = cheerio('tr:nth-child('+ (offset + hour) +')', result);
 
       //Looping for (optional) specialhours
-      var specialHours = schedule.find('table').eq(day).children().length;
+      let specialHours = schedule.find('table').eq(day).children().length;
       scheduleData[day][hour] = {teacher: [], chamber: [], course: [], changed: []};
       for (subhour = 0; subhour < specialHours; subhour++) {
-         var selectedHour = schedule.find('table').eq(day).find('tr').eq(subhour).find('td');
+         let selectedHour = schedule.find('table').eq(day).find('tr').eq(subhour).find('td');
          //Give the value of the schedule hour to the fitting array.
          scheduleData[day][hour].teacher[subhour] = selectedHour.eq(0).text().replace(/\r|\n/g, '');
          scheduleData[day][hour].chamber[subhour] = selectedHour.eq(2).text();

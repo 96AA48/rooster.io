@@ -6,14 +6,14 @@
  */
 
 //Importing first-party modules.
-var fs = require('fs');
+const fs = require('fs');
 
 //Importing self-written modules.
-var config = require('./configuration');
-var database = require('./database')();
+const config = require('./configuration');
+const database = require('./database')();
 
 //Getting local variables from the configuration file.
-var schoolID = config().schoolID;
+const schoolID = config().schoolID;
 
 /**
  * Function for doing a lookup in the database containing all records
@@ -80,8 +80,8 @@ function handle(req, res, next, databaseEntry) {
  * @param {Function} callback - Callback function needed to return the API call.
  */
 function api(req, callback) {
-  var index = database.collection('index');
-  var query = RegExp(req.query.name, 'i');
+  let index = database.collection('index');
+  let query = RegExp(req.query.name, 'i');
 
   if (!config().localDatabase) {
     index.find({$or : [{id : query}, {name : query}, {first_name : query}, {last_name : query}, {username: query}, {group: query}]}).toArray(function (err, databaseEntry) {
@@ -111,8 +111,8 @@ function api(req, callback) {
  * @param {String} list - The search (group) query given by the user.
  */
 function list(req, res, next, list) {
-  var index = database.collection('index');
-  var query = RegExp(list, 'i');
+  let index = database.collection('index');
+  let query = RegExp(list, 'i');
 
   if (!config().localDatabase) {
     index.find({group: list}).toArray(function (err, databaseEntry) {
@@ -177,7 +177,7 @@ function makeUrl(req, databaseEntry) {
  * @param {String} search - The user supplied search query.
  */
 function easter(search) {
-  var list = JSON.parse(fs.readFileSync(__dirname + '/eastereggs.json'));
+  let list = JSON.parse(fs.readFileSync(__dirname + '/eastereggs.json'));
 
   for (entry of list) {
     if (entry.easter == search.toLowerCase()) return entry;

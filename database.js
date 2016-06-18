@@ -7,10 +7,10 @@
  */
 
 //Import first-party modules.
-var fs = require('fs');
+const fs = require('fs');
 
 //Import self-written modules.
-var config = require('./configuration');
+const config = require('./configuration');
 
 /**
  * Function for using a database interface.
@@ -20,13 +20,13 @@ var config = require('./configuration');
 module.exports = function () {
   if (!config().localDatabase) return require('mongoskin').db('mongodb://' + config().database);
   else {
-    var databases = {
+    let databases = {
       index: new (require('nedb'))({ filename: __dirname + '/resources/databases/index.db', autoload: true})
     };
 
     return {
       'collection': function (collection) {
-          var database = databases[collection];
+          let database = databases[collection];
 
           database.drop = function () {
             fs.writeFileSync(database.filename, '');

@@ -6,16 +6,16 @@
  */
 
 //Import first-party modules.
-var crypto = require('crypto');
+const crypto = require('crypto');
 
 //Import self-written modules.
-var config = require('./configuration');
+const config = require('./configuration');
 
-//Set local variables.
-var encoding = 'utf8';
-var cryptEncoding = 'hex';
-var algo = 'aes192';
-var passwd = config().encryptionKey;
+//Set local constants.
+const encoding = 'utf8';
+const cryptEncoding = 'hex';
+const algo = 'aes192';
+const passwd = config().encryptionKey;
 
 /**
  * Function for encrypting a string.
@@ -23,8 +23,8 @@ var passwd = config().encryptionKey;
  * @return {String} encryptArray - Encrypted string.
  */
 function encrypt(str) {
-	var cipher = crypto.createCipher(algo, passwd);
-	var encryptArray = [];
+	let cipher = crypto.createCipher(algo, passwd);
+	let encryptArray = [];
 
 	encryptArray.push(cipher.update(str, encoding, cryptEncoding));
 	encryptArray.push(cipher.final(cryptEncoding));
@@ -38,8 +38,8 @@ function encrypt(str) {
  * @return {String} The decrypted string.
  */
 function decrypt(str) {
-	var decipher = crypto.createDecipher(algo, passwd);
-	var decryptArray = [];
+	let decipher = crypto.createDecipher(algo, passwd);
+	let decryptArray = [];
 
 	try {
 		decryptArray.push(decipher.update(str, cryptEncoding, encoding));
