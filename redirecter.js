@@ -15,15 +15,13 @@ const qs = require('querystring');
  * @param {Object} req - Request object supplied by Express.
  * @param {Object} res - Response object supplied by Express.
  */
-module.exports = function (req, res) {
+module.exports = (req, res) => {
   let referer = req.headers.referer.split('/')[3] || 'rooster';
   let _data = '';
 
-  req.on('data', function (data) {
-    _data += data;
-  });
+  req.on('data', (data) => _data += data);
 
-  req.on('end', function () {
+  req.on('end', () => {
     let query = qs.parse(_data);
 
     if (query && query.search != '') {

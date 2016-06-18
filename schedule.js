@@ -23,7 +23,7 @@ const config = require('./configuration');
  * @param {Function} next - Next function supplied by Express.
  */
 function get(req, res, next) {
-  getSchedule(req.match.url, function (json) {
+  getSchedule(req.match.url, (json) => {
     req.match.json = json;
     next();
   });
@@ -39,16 +39,11 @@ function getSchedule(getUrl, callback) {
   options.socksPort = config().torPort;
   options.socksHost = config().torHost;
 
-  http.get(options, function (res) {
+  http.get(options, (res) => {
     let _download = '';
 
-    res.on('data', function (data) {
-      _download += data;
-    });
-
-    res.on('end', function () {
-      callback(toJSON(_download));
-    });
+    res.on('data', (data) => _download += data);
+    res.on('end', () => callback(toJSON(_download)));
   });
 }
 

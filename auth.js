@@ -37,7 +37,7 @@ function getLogin(username, password, callback) {
 		},
 		socksPort: config().torPort,
 	  socksHost: config().torHost
-	}, function (res) {
+	}, (res) => {
 		if (res.statusCode == 201 || res.statusCode == 200) callback(true);
 		else callback(false);
 	}).write(login);
@@ -54,14 +54,14 @@ function getLogin(username, password, callback) {
 function login(req, res, next) {
 	let _data = '';
 
-	req.on('data', function (data) {
+	req.on('data', (data) => {
 		_data += data;
 	});
 
-	req.on('end', function () {
+	req.on('end', () => {
 		let loginInformation = qs.parse(_data)
 
-		getLogin(loginInformation.username, loginInformation.password, function (legit) {
+		getLogin(loginInformation.username, loginInformation.password, (legit) => {
 			let username = crypt.encrypt(loginInformation.username);
 			let password = crypt.encrypt(loginInformation.password);
 			if (legit) {
@@ -99,10 +99,10 @@ function is(req, res, next) {
 	let username = crypt.decrypt(cookies.username),
 	password = crypt.decrypt(cookies.password);
 
-	getLogin(username, password, function (legit) {
+	getLogin(username, password, (legit) => {
 		if (legit) {
 			req.query.name = username;
-			lookup.api(req, function (databaseEntry) {
+			lookup.api(req, (databaseEntry) => {
 				req.headers.user = databaseEntry.data[0];
 				next();
 			});

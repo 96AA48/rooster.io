@@ -24,7 +24,7 @@ function parse(req, res, next, api) {
   if (api == 'search') {
     if (!req.query.name) error('You didn\'t send the needed queries: name', res);
     else {
-      lookup.api(req, function (lookup) {
+      lookup.api(req, (lookup) => {
         if (lookup.error) error(lookup.error, res);
         else sendResponse(lookup.data, res);
       });
@@ -33,12 +33,12 @@ function parse(req, res, next, api) {
   else if (api == 'schedule') {
     if (!req.query.name) error('You didn\'t send the needed queries : name', res);
     else {
-      lookup.api(req, function (lookup) {
+      lookup.api(req, (lookup) => {
         if (lookup.error) error(lookup.error, res);
         else {
           if (lookup.data.length > 1 || lookup.data.length == 0) error('The request that you did had multiple responses or none, make sure that your query returns one.', res, lookup.data)
           else {
-            schedule.api(lookup, function (scheduleData) {
+            schedule.api(lookup, (scheduleData) => {
               sendResponse(scheduleData, res, true);
             });
           }

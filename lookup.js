@@ -30,13 +30,13 @@ function get(req, res, next, search) {
   search = new RegExp(search, 'i');
 
   if (!config().localDatabase) {
-    index.find({$or : [{id : search}, {name : search}, {first_name : search}, {last_name : search}, {username: search}]}).toArray(function (err, databaseEntry) {
+    index.find({$or : [{id : search}, {name : search}, {first_name : search}, {last_name : search}, {username: search}]}).toArray((err, databaseEntry) => {
       if (err) console.warn(err);
       handle(req, res, next, databaseEntry);
     });
   }
   else {
-    index.find({$or : [{id : search}, {name : search}, {first_name : search}, {last_name : search}, {username: search}]}, function (err, databaseEntry) {
+    index.find({$or : [{id : search}, {name : search}, {first_name : search}, {last_name : search}, {username: search}]}, (err, databaseEntry) => {
       if (err) console.warn(err);
       handle(req, res, next, databaseEntry);
     });
@@ -52,7 +52,7 @@ function get(req, res, next, search) {
  */
 function handle(req, res, next, databaseEntry) {
   if ((req.easter || {}).type == 'RIP') {
-      require('./auth').is(req, res, function () {
+      require('./auth').is(req, res, () => {
         res.render('schedule', req);
       });
   }
@@ -62,13 +62,13 @@ function handle(req, res, next, databaseEntry) {
     next();
   }
   else if (databaseEntry.length == 0) {
-    require('./auth').is(req, res, function () {
+    require('./auth').is(req, res, () => {
       res.render('not_found', req);
     });
   }
   else {
     req.match = databaseEntry;
-    require('./auth').is(req, res, function () {
+    require('./auth').is(req, res, () => {
       res.render('list', req);
     });
   }
@@ -84,7 +84,7 @@ function api(req, callback) {
   let query = RegExp(req.query.name, 'i');
 
   if (!config().localDatabase) {
-    index.find({$or : [{id : query}, {name : query}, {first_name : query}, {last_name : query}, {username: query}, {group: query}]}).toArray(function (err, databaseEntry) {
+    index.find({$or : [{id : query}, {name : query}, {first_name : query}, {last_name : query}, {username: query}, {group: query}]}).toArray((err, databaseEntry) => {
       if (err) callback({'error': err});
       else {
         for (entry of databaseEntry) {entry.url = makeUrl(req, entry)}
@@ -93,7 +93,7 @@ function api(req, callback) {
     });
   }
   else {
-    index.find({$or : [{id : query}, {name : query}, {first_name : query}, {last_name : query}, {username: query}, {group: query}]}, function (err, databaseEntry) {
+    index.find({$or : [{id : query}, {name : query}, {first_name : query}, {last_name : query}, {username: query}, {group: query}]}, (err, databaseEntry) => {
       if (err) callback({'error': err});
       else {
         for (entry of databaseEntry) {entry.url = makeUrl(req, entry)}
@@ -115,10 +115,10 @@ function list(req, res, next, list) {
   let query = RegExp(list, 'i');
 
   if (!config().localDatabase) {
-    index.find({group: list}).toArray(function (err, databaseEntry) {
+    index.find({group: list}).toArray((err, databaseEntry) => {
       if (err) {req.error = err; next();}
       else {
-        if (databaseEntry.length < 1) require('./auth').is(req, res, function () {
+        if (databaseEntry.length < 1) require('./auth').is(req, res, () => {
           res.render('not_found', req);
         });
         req.match = databaseEntry;
@@ -127,10 +127,10 @@ function list(req, res, next, list) {
     });
   }
   else {
-    index.find({group: list}, function (err, databaseEntry) {
+    index.find({group: list}, (err, databaseEntry) => {
       if (err) {req.error = err; next();}
       else {
-        if (databaseEntry.length < 1) require('./auth').is(req, res, function () {
+        if (databaseEntry.length < 1) require('./auth').is(req, res, () => {
           res.render('not_found', req);
         });
         req.match = databaseEntry;

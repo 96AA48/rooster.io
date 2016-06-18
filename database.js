@@ -17,7 +17,7 @@ const config = require('./configuration');
  * Either local (NeDB) or remote (MongoDB).
  * @return {Object} database - Entire database engine (NeDB/MongoDB).
  */
-module.exports = function () {
+module.exports = () => {
   if (!config().localDatabase) return require('mongoskin').db('mongodb://' + config().database);
   else {
     let databases = {
@@ -25,16 +25,16 @@ module.exports = function () {
     };
 
     return {
-      'collection': function (collection) {
+      'collection': (collection) => {
           let database = databases[collection];
 
-          database.drop = function () {
+          database.drop = () => {
             fs.writeFileSync(database.filename, '');
           }
 
           return database;
        },
-       'close': function () {
+       'close': () => {
          return;
        }
     }

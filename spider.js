@@ -43,19 +43,12 @@ function crawl() {
       options.socksPort = config().torPort;
       options.socksHost = config().torHost;
 
-      http.get(options, function (res) {
-
+      http.get(options, (res) => {
         let _download = {};
         _download.type = scheduletype;
 
-        res.on('data', function (data) {
-          _download.data += data;
-        });
-
-        res.on('end', function () {
-          rip(_download);
-        });
-
+        res.on('data', (data) => _download.data += data);
+        res.on('end', () => rip(_download));
       });
     })(scheduletype);
   }
@@ -88,14 +81,12 @@ function rip(page) {
         options.socksPort = config().torPort;
         options.socksHost = config().torHost;
 
-        http.get(options, function (res) {
+        http.get(options, (res) => {
           let _download = '';
 
-          res.on('data', function (data) {
-            _download += iconv.decode(data, 'binary');
-          });
+          res.on('data', (data) => _download += iconv.decode(data, 'binary'));
 
-          res.on('end', function () {
+          res.on('end', () => {
             let listOfStudents = cheerio('select', _download).children();
 
             for (student in listOfStudents) {
@@ -119,11 +110,8 @@ function rip(page) {
                 collection.insert(databaseEntry);
 
                 if (studentcategory == list[list.length - 1] && student == listOfStudents.length - 1) {
-                  setTimeout(function () {
-                    database.close();
-                  }, config().spiderTimeout);
+                  setTimeout(() => database.close(), config().spiderTimeout);
                 }
-
               }
             }
           });
@@ -150,5 +138,5 @@ module.exports = {
 
 //Testing/ripping command to be used from cli.
 if (process.argv[2] == 'test' || process.argv[2] == 'rip') {
-  module.exports.crawl(934);
+  module.exports.crawl(config().schoolID);
 }

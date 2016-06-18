@@ -12,7 +12,7 @@ const fs = require('fs');
  * Function for the return/creating of a settings file/object.
  * @return {Object} settings - Object of all the settings.
  */
-module.exports = function () {
+module.exports = () => {
    if (!fs.existsSync(__dirname + '/settings.json')) {
       //Template for settings.json if not available.
       var settings = {
